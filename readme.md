@@ -1,6 +1,6 @@
 # Crabglove
 
-This is a [Tauri](https://v2.tauri.app/) project template using [Next.js](https://nextjs.org/),
+This is a [Tauri](https://v2.tauri.app/) project using [Next.js](https://nextjs.org/),
 bootstrapped by combining [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app)
 and [`create tauri-app`](https://v2.tauri.app/start/create-project/).
 
@@ -9,7 +9,7 @@ manager, and uses the [App Router](https://nextjs.org/docs/app) model for Next.j
 
 ## Getting Started
 
-### prepare
+### Prepare
 
 ***This is the [environment configuration](https://tauri.app/start/prerequisites/) required for Tauri. Please follow these steps.***
 
@@ -18,7 +18,7 @@ If your computer already has Node.js and npm installed, you can simply run the f
 npm install -g pnpm
 ```
 
-### run
+### Run
 
 To develop and run the frontend in a Tauri window:
 
