@@ -1,0 +1,28 @@
+id: org.flatpak.crabglove
+
+runtime: org.gnome.Platform
+runtime-version: '48'
+sdk: org.gnome.Sdk
+
+command: crabglove
+finish-args:
+  - --socket=wayland # Permission needed to show the window
+  - --socket=fallback-x11 # Permission needed to show the window
+  - --device=dri # OpenGL, not necessary for all projects
+  - --share=ipc
+  - --talk-name=org.kde.StatusNotifierWatcher # Optional: needed only if your app uses the tray icon
+  - --filesystem=xdg-run/tray-icon:create # Optional: needed only if your app uses the tray icon - see an alternative way below
+
+modules:
+  - name: binary
+    buildsystem: simple
+    sources:
+      - type: dir
+        path: .
+    build-commands:
+      - 'install -Dm755 src-tauri/target/release/bundle/deb/crabglove_0.1.0_amd64/data/usr/bin/crabglove /app/bin/crabglove'
+      - install -Dm644 src-tauri/target/release/bundle/deb/crabglove_0.1.0_amd64/data/usr/share/applications/crabglove.desktop /app/share/applications/org.flatpak.crabglove.desktop
+      - install -Dm644 src-tauri/target/release/bundle/deb/crabglove_0.1.0_amd64/data/usr/share/icons/hicolor/128x128/apps/crabglove.png /app/share/icons/hicolor/128x128/apps/org.flatpak.crabglove.png
+      - install -Dm644 src-tauri/target/release/bundle/deb/crabglove_0.1.0_amd64/data/usr/share/icons/hicolor/32x32/apps/crabglove.png /app/share/icons/hicolor/32x32/apps/org.flatpak.crabglove.png
+      - install -Dm644 src-tauri/target/release/bundle/deb/crabglove_0.1.0_amd64/data/usr/share/icons/hicolor/256x256@2/apps/crabglove.png /app/share/icons/hicolor/256x256@2/apps/org.flatpak.crabglove.png
+      # - install -Dm644 org.flatpak.crabglove.metainfo.xml /app/share/metainfo/org.flatpak.crabglove.rosary.metainfo.xml
