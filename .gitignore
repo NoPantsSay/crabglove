@@ -37,3 +37,10 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# flatpak
+/.flatpak-builder/
+/build-dir/
+/crabglove.flatpak
+/repo/
+/crabglove-runtime.flatpak
