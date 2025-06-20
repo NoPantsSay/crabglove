@@ -57,25 +57,23 @@ flatpak install flathub org.gnome.Platform//48 org.gnome.Sdk//48
 ### Build flatpak app
 
 ``` shell
-flatpak-builder --force-clean --repo=repo build-dir org.flatpak.crabglove.yml
-flatpak build-bundle repo crabglove.flatpak org.flatpak.crabglove
-``` 
-
-### Build flatpak runtime (optional)
-
-``` shell
-flatpak build-bundle --runtime /var/lib/flatpak/repo crabglove-runtime.flatpak org.gnome.Platform 48
-``` 
-
-### Install the runtime (optional)
-
-``` shell
-flatpak install crabglove-runtime.flatpak
+sudo flatpak-builder --force-clean --install build-dir org.flatpak.crabglove.yml
 ``` 
 
 ### Run flatpak
 
 ``` shell
-flatpak install --user  crabglove.flatpak
 flatpak run  org.flatpak.crabglove
+``` 
+
+### bundle flatpak
+
+``` shell
+flatpak build-bundle /var/lib/flatpak/repo crabglove.flatpak org.flatpak.crabglove
+``` 
+
+### Install flatpak
+
+``` shell
+flatpak install crabglove.flatpak
 ``` 
