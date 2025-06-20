@@ -41,6 +41,4 @@ yarn-error.log*
 # flatpak
 /.flatpak-builder/
 /build-dir/
-/crabglove.flatpak
-/repo/
-/crabglove-runtime.flatpak
+*.flatpak
