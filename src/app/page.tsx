@@ -2,8 +2,8 @@
 import { RoundedButton } from "@/components/RoundedButton";
 import { invoke } from "@tauri-apps/api/core";
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useState } from "react";
-import Link from 'next/link';
 
 export default function Home() {
   const [greeted, setGreeted] = useState<string | null>(null);
@@ -40,17 +40,14 @@ export default function Home() {
         </ol>
 
         <div className="flex flex-col gap-2 items-start">
-          <RoundedButton
-            onClick={greet}
-            title="Call &quot;greet&quot; from Rust"
-          />
+          <RoundedButton onClick={greet} title='Call "greet" from Rust' />
           <p className="break-words w-md">
             {greeted ?? "Click the button to call the Rust function"}
           </p>
         </div>
 
-        <Link 
-          href="/3d" 
+        <Link
+          href="/3d"
           className="text-wihte-600 hover:text-blue-800 active:font-bold"
         >
           3d
