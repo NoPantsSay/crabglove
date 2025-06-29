@@ -26,7 +26,7 @@ function MyRotatingBox() {
             castShadow
             args={[0.7, 0.7, 0.7]}
             ref={BoxMesh}
-            onClick={() => setActive(!active)}
+            onClick={() => { setActive(!active) }}
             scale={scale}
         >
             <meshStandardMaterial color="hotpink" />
@@ -66,8 +66,8 @@ export default function Page() {
                         <Sphere
                             castShadow
                             args={[0.5, 64, 64]}
-                            onClick={async () => {
-                                await message('This is sphere', { title: 'Info', kind: 'info' })
+                            onClick={() => {
+                                message('This is sphere', { title: 'Info', kind: 'info' }).catch(console.error)
                             }}
                         >
                             <meshStandardMaterial color="lightblue" />
