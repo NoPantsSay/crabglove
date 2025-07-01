@@ -10,10 +10,10 @@ import {
   Sphere,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { message } from "@tauri-apps/plugin-dialog";
 import { Leva, useControls } from "leva";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import type { Mesh } from "three";
 
 function MyRotatingBox() {
@@ -61,6 +61,7 @@ export default function Page() {
   return (
     <div className="grid grid-rows-[1fr_20px] items-center justify-items-center min-h-screen p-0 pb-0 gap-0 sm:p-0 font-[family-name:var(--font-geist-sans)]">
       <Leva collapsed={true} />
+      <Toaster />
       <Canvas shadows>
         <ambientLight intensity={0.5} />
         <directionalLight
@@ -76,10 +77,7 @@ export default function Page() {
               castShadow
               args={[0.5, 64, 64]}
               onClick={() => {
-                message("This is sphere", {
-                  title: "Info",
-                  kind: "info",
-                }).catch(console.error);
+                toast.success("This is sphere!");
               }}
             >
               <meshStandardMaterial color="lightblue" />
