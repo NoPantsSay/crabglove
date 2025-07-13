@@ -1,32 +1,17 @@
 "use client";
 
-import {
-  Box,
-  Center,
-  GizmoHelper,
-  GizmoViewport,
-  Grid,
-  OrbitControls,
-  Sphere,
-} from "@react-three/drei";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Box, Center, Grid, Sphere } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Leva, useControls } from "leva";
 import Link from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import * as THREE from "three";
 
+import { CustomCameraControls } from "./customCameraControls";
 import { DrawMeasureIn2D, Measure } from "./measure";
 import { TopRightButton } from "./topRightButton";
-import { TopRightButtonContext } from "./topRightButtonContext";
 import { TopRightButtonProvider } from "./topRightButtonProvider";
-
-const defaultTarget = new THREE.Vector3(0, 0, 0);
-const defaultCameraVector = new THREE.Vector3(1, 1, 1).normalize();
-const defaultCameraDistance: number = 10;
-const defaultCameraPostion = defaultTarget
-  .clone()
-  .add(defaultCameraVector.clone().multiplyScalar(defaultCameraDistance));
 
 function CustomRotatingBox() {
   const BoxMesh = useRef<React.ComponentRef<typeof Box>>(null);
@@ -55,72 +40,6 @@ function CustomRotatingBox() {
   );
 }
 
-function CustomCameraControls() {
-  const { setShowResetButton, resetCamera, setResetCamera } = useContext(
-    TopRightButtonContext,
-  );
-
-  const { camera } = useThree();
-  const controlsRef = useRef<React.ComponentRef<typeof OrbitControls>>(null);
-
-  const handleChangeEnd = () => {
-    if (!controlsRef.current) {
-      return;
-    }
-
-    const target = controlsRef.current.target;
-    const distance = camera.position.distanceTo(target);
-    const diff = Math.abs(distance - defaultCameraDistance);
-
-    if (
-      target.distanceTo(defaultTarget) > Number.EPSILON * 1000 ||
-      diff > Number.EPSILON * 1000
-    ) {
-      setShowResetButton(true);
-    } else {
-      setShowResetButton(false);
-    }
-
-    // console.log(JSON.stringify({ target, distance, diff }));
-  };
-
-  useEffect(() => {
-    if (resetCamera) {
-      if (!controlsRef.current) {
-        return;
-      }
-
-      const direction = new THREE.Vector3();
-      const postion = defaultTarget
-        .clone()
-        .add(
-          camera
-            .getWorldDirection(direction)
-            .clone()
-            .negate()
-            .multiplyScalar(defaultCameraDistance),
-        );
-
-      camera.position.copy(postion);
-      controlsRef.current.target.copy(defaultTarget);
-
-      // console.log(JSON.stringify({ defaultTarget, postion, direction }));
-
-      setResetCamera(false);
-      setShowResetButton(false);
-    }
-  }, [resetCamera, camera, setResetCamera, setShowResetButton]);
-
-  return (
-    <OrbitControls
-      ref={controlsRef}
-      makeDefault
-      target={defaultTarget}
-      onEnd={handleChangeEnd}
-    />
-  );
-}
-
 export default function Page() {
   const { gridSize, ...gridConfig } = useControls({
     gridSize: [100.5, 100.5],
@@ -141,7 +60,7 @@ export default function Page() {
       <div className="grid grid-rows-[1fr_20px] items-center justify-items-center h-screen p-0 pb-0 gap-0 sm:p-0 font-sans]">
         <div className="relative flex flex-col h-full w-full">
           <Toaster />
-          <Canvas shadows camera={{ position: defaultCameraPostion }}>
+          <Canvas shadows>
             <ambientLight intensity={0.5} />
             <directionalLight
               position={[10, 10, 5]}
@@ -174,12 +93,6 @@ export default function Page() {
             </group>
             <CustomCameraControls />
             <Measure />
-            <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-              <GizmoViewport
-                axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                labelColor="white"
-              />
-            </GizmoHelper>
           </Canvas>
 
           <DrawMeasureIn2D />

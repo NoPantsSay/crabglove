@@ -1,8 +1,17 @@
+"use client";
+
 import { useContext } from "react";
 
 import { TopRightButtonContext } from "./topRightButtonContext";
 
 export function TopRightButton() {
+  const context = useContext(TopRightButtonContext);
+  if (!context) {
+    throw new Error(
+      "use TopRightButtonContext must be used within a TopRightButtonContext.Provider",
+    );
+  }
+
   const {
     showResetButton,
     setResetCamera,
@@ -10,7 +19,7 @@ export function TopRightButton() {
     setIs3D,
     isMeasure,
     setIsMeasure,
-  } = useContext(TopRightButtonContext);
+  } = context;
 
   return (
     <div className="absolute top-3 right-3 flex flex-col gap-2 w-fit">

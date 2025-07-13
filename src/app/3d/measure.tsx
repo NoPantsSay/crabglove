@@ -1,10 +1,13 @@
+"use client";
+
 import { Billboard, Circle, Line, Text } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useCallback, useContext, useEffect, useMemo, useRef } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import * as THREE from "three";
 
 import { TopRightButtonContext } from "./topRightButtonContext";
 
+// 画点
 function FixedSizeDot({ position }: { position: THREE.Vector3 }) {
   return (
     <Billboard position={position}>
@@ -15,6 +18,7 @@ function FixedSizeDot({ position }: { position: THREE.Vector3 }) {
   );
 }
 
+// 画线
 function FixedSizeLineTextDot({
   point1,
   point2,
@@ -28,16 +32,26 @@ function FixedSizeLineTextDot({
   );
 }
 
+// 在Canvas里使用 画3d的点和线
 export function Measure() {
+  const context = useContext(TopRightButtonContext);
+  if (!context) {
+    throw new Error(
+      "use TopRightButtonContext must be used within a TopRightButtonContext.Provider",
+    );
+  }
+
   const {
     isMeasure,
     setIsMeasure,
     measurePoints,
     setMeasurePoints,
     setMeasureTextPos,
-  } = useContext(TopRightButtonContext);
-  const { camera, pointer, raycaster, gl } = useThree();
+  } = context;
 
+  const { camera, pointer, gl } = useThree();
+
+  // 更新在Canvas上2d的坐标
   useFrame((state, delta) => {
     if (measurePoints.length !== 2) {
       setMeasureTextPos(null);
@@ -66,6 +80,7 @@ export function Measure() {
     }
   });
 
+  // 改变鼠标光标
   useEffect(() => {
     if (isMeasure) {
       setMeasurePoints([]);
@@ -80,10 +95,12 @@ export function Measure() {
     [],
   );
 
+  // 鼠标点击
   const handleClick = useCallback(
     (event: MouseEvent) => {
       if (!isMeasure) return;
 
+      const raycaster = new THREE.Raycaster();
       raycaster.setFromCamera(pointer, camera);
 
       const intersection = new THREE.Vector3();
@@ -104,20 +121,22 @@ export function Measure() {
       setIsMeasure,
       camera,
       pointer,
-      raycaster,
       plane,
       measurePoints,
       setMeasurePoints,
     ],
   );
 
+  // 鼠标移动
   const handleMouseMove = useCallback(
     (event: MouseEvent) => {
       if (!isMeasure) return;
 
+      const raycaster = new THREE.Raycaster();
       raycaster.setFromCamera(pointer, camera);
 
       const intersection = new THREE.Vector3();
+
       const ray = raycaster.ray;
       if (ray.intersectPlane(plane, intersection)) {
         if (measurePoints.length === 2) {
@@ -127,15 +146,7 @@ export function Measure() {
         }
       }
     },
-    [
-      isMeasure,
-      camera,
-      pointer,
-      raycaster,
-      plane,
-      measurePoints,
-      setMeasurePoints,
-    ],
+    [isMeasure, camera, pointer, plane, measurePoints, setMeasurePoints],
   );
 
   useEffect(() => {
@@ -163,8 +174,16 @@ export function Measure() {
   return null;
 }
 
+// // 在Canvas外使用 画两点的距离
 export function DrawMeasureIn2D() {
-  const { measurePoints, measureTextPos } = useContext(TopRightButtonContext);
+  const context = useContext(TopRightButtonContext);
+  if (!context) {
+    throw new Error(
+      "use TopRightButtonContext must be used within a TopRightButtonContext.Provider",
+    );
+  }
+
+  const { measurePoints, measureTextPos } = context;
 
   const distance = useMemo(() => {
     if (measurePoints.length === 2) {
