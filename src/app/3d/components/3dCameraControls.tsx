@@ -12,7 +12,7 @@ import {
 } from "./global";
 import { TopRightButtonContext } from "./topRightButtonContext";
 
-export function CustomCameraControls() {
+export function D3CameraControls() {
   const context = useContext(TopRightButtonContext);
   if (!context) {
     throw new Error(
@@ -81,7 +81,7 @@ export function CustomCameraControls() {
           defaultTarget.z,
         )
         .catch((error: unknown) => {
-          console.error("setLookAt error:", error);
+          console.error(error);
         });
 
       setResetCamera(false);
@@ -133,7 +133,7 @@ export function CustomCameraControls() {
           defaultTarget.z,
         )
         .catch((error: unknown) => {
-          console.error("setLookAt error:", error);
+          console.error(error);
         });
     }
   }, []);

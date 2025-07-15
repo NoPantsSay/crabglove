@@ -4,14 +4,14 @@ import { Box, Center, Grid, Sphere } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Leva, useControls } from "leva";
 import Link from "next/link";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import * as THREE from "three";
 
-import { CustomCameraControls } from "./customCameraControls";
-import { DrawMeasureIn2D, Measure } from "./measure";
-import { TopRightButton } from "./topRightButton";
-import { TopRightButtonProvider } from "./topRightButtonProvider";
+import { D3CameraControls } from "./components/3dCameraControls";
+import { DrawMeasureIn2D, Measure } from "./components/measure";
+import { TopRightButton } from "./components/topRightButton";
+import { TopRightButtonProvider } from "./components/topRightButtonProvider";
 
 function CustomRotatingBox() {
   const BoxMesh = useRef<React.ComponentRef<typeof Box>>(null);
@@ -56,9 +56,9 @@ export default function Page() {
   });
 
   return (
-    <TopRightButtonProvider>
-      <div className="grid grid-rows-[1fr_20px] items-center justify-items-center h-screen p-0 pb-0 gap-0 sm:p-0 font-sans]">
-        <div className="relative flex flex-col h-full w-full">
+    <div className="flex flex-col items-center justify-items-center font-sans">
+      <TopRightButtonProvider>
+        <div className="relative flex flex-col">
           <Toaster />
           <Canvas shadows>
             <ambientLight intensity={0.5} />
@@ -91,7 +91,7 @@ export default function Page() {
                 side={THREE.DoubleSide}
               />
             </group>
-            <CustomCameraControls />
+            <D3CameraControls />
             <Measure />
           </Canvas>
 
@@ -101,16 +101,14 @@ export default function Page() {
 
           <Leva collapsed={true} />
         </div>
+      </TopRightButtonProvider>
 
-        <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-          <Link
-            href="/"
-            className="text-wihte-600 hover:text-blue-800 active:font-bold"
-          >
-            back
-          </Link>
-        </footer>
-      </div>
-    </TopRightButtonProvider>
+      <Link
+        href="/"
+        className="text-white-600 hover:text-blue-800 active:font-bold"
+      >
+        back
+      </Link>
+    </div>
   );
 }
