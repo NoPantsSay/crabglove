@@ -1,7 +1,10 @@
 "use client";
 import "@/styles/globals.css";
-import Link from "next/link";
-import { DashboardTitleBar } from "./components/DashboardTitleBar";
+
+import { Browse } from "./ui/nav/browse";
+import { OpenDataSources } from "./ui/nav/openDataSources";
+import { Setting } from "./ui/nav/setting";
+import { DashboardTitleBar } from "./ui/titlebar/dashboardTitleBar";
 
 export default function RootLayout({
   children,
@@ -10,22 +13,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-mono antialiased h-screen w-screen flex flex-col">
+      <body className="font-sans antialiased h-screen w-screen flex flex-col ">
         <DashboardTitleBar />
 
-        <div className="border-r border-[#585858]" />
-
-        <div className="flex-auto flex flex-row flex-wrap">
-          <div className="w-[300px] flex-shrink-0 flex flex-col bg-[#202020] border-r border-[#585858]">
-            <Link
-              href="/3d"
-              className="text-white-600 hover:text-blue-800 active:font-bold"
-            >
-              3d
-            </Link>
+        <div className="flex-auto flex flex-row flex-wrap min-w-0">
+          <div className="min-w-[280px] max-h-full bg-[var(--dashboardBackground)] border-r border-[#585858] px-3 pt-5 pb-4  overflow-y-scroll text-xs ">
+            <ul>
+              <OpenDataSources />
+              <hr className="mx-4 my-2 border-[#585858]" />
+              <Browse />
+              <hr className="mx-4 my-2 border-[#585858]" />
+              <Setting />
+            </ul>
           </div>
 
-          <div className="flex-auto">{children}</div>
+          <div className="flex-auto overflow-y-auto">{children}</div>
         </div>
       </body>
     </html>

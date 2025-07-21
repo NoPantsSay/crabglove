@@ -1,39 +1,49 @@
 "use client";
-import Icon from "@/components/icons/icon.png";
-import Image from "next/image";
 
-import { Window } from "@tauri-apps/api/window";
+import { getCurrentWindow } from "@tauri-apps/api/window";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { FaMinus, FaRegWindowRestore, FaXmark } from "react-icons/fa6";
 
+import { browseLinksMap } from "../data/data";
+
 export function DashboardTitleBar() {
-  const appWindow = new Window("main");
+  const pathname = usePathname();
+
+  const title = browseLinksMap.get(pathname)?.name;
 
   const handleMinimize = () => {
-    appWindow.minimize().catch((error: unknown) => {
-      console.error(error);
-    });
+    getCurrentWindow()
+      .minimize()
+      .catch((error: unknown) => {
+        console.error(error);
+      });
   };
   const handleMaximize = () => {
-    appWindow.toggleMaximize().catch((error: unknown) => {
-      console.error(error);
-    });
+    getCurrentWindow()
+      .toggleMaximize()
+      .catch((error: unknown) => {
+        console.error(error);
+      });
   };
   const handleClose = () => {
-    appWindow.close().catch((error: unknown) => {
-      console.error(error);
-    });
+    getCurrentWindow()
+      .close()
+      .catch((error: unknown) => {
+        console.error(error);
+      });
   };
 
   return (
     <div
       data-tauri-drag-region
-      className="relative flex justify-between items-center bg-[#2c2c2c] text-white p-1 border-b border-[#585858]"
+      className="relative flex flex-row min-h-11 justify-between items-center bg-[#2c2c2c] text-white p-1 border-b border-[#585858]"
     >
       <div className="flex pointer-events-none">
-        <Image src={Icon} alt="" width={24} height={24} />
+        <Image src="/32x32.png" alt="logo" width={24} height={24} priority />
       </div>
       <div className="absolute left-0 right-0 text-center text-sm pointer-events-none">
-        仪表盘
+        {title}
       </div>
       <div className="flex space-x-1 ml-auto">
         <button
