@@ -2,15 +2,20 @@
 
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FaMinus, FaRegWindowRestore, FaXmark } from "react-icons/fa6";
 
 import { browseLinksMap } from "../data/data";
 
 export function DashboardTitleBar() {
   const pathname = usePathname();
-
+  const router = useRouter();
+  const isDisableReturnHome = pathname === "/";
   const title = browseLinksMap.get(pathname)?.name;
+
+  const handleReturnHome = () => {
+    router.push("/");
+  };
 
   const handleMinimize = () => {
     getCurrentWindow()
@@ -37,11 +42,16 @@ export function DashboardTitleBar() {
   return (
     <div
       data-tauri-drag-region
-      className="relative flex flex-row min-h-11 justify-between items-center bg-[#2c2c2c] text-white p-1 border-b border-[#585858]"
+      className="relative flex flex-row min-h-11 justify-between items-center bg-[#2c2c2c] text-white  border-b border-[#585858]"
     >
-      <div className="flex pointer-events-none">
-        <Image src="/32x32.png" alt="logo" width={24} height={24} priority />
-      </div>
+      <button
+        type="button"
+        disabled={isDisableReturnHome}
+        onClick={handleReturnHome}
+        className={`px-1.5 py-1 ${isDisableReturnHome ? "" : "hover:bg-[#3f3f3f]"}`}
+      >
+        <Image src="/32x32.png" alt="logo" width={32} height={32} priority />
+      </button>
       <div className="absolute left-0 right-0 text-center text-sm pointer-events-none">
         {title}
       </div>
