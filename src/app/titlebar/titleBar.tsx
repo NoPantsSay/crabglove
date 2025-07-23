@@ -5,16 +5,16 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { FaMinus, FaRegWindowRestore, FaXmark } from "react-icons/fa6";
 
-import { browseLinksMap } from "../data/data";
+import { dashboardLinksMap } from "../data/data";
 
-export function DashboardTitleBar() {
+export function TitleBar() {
   const pathname = usePathname();
   const router = useRouter();
-  const isDisableReturnHome = pathname === "/";
-  const title = browseLinksMap.get(pathname)?.name;
+  const isDisableReturnHome = pathname === "/dashboard";
+  const title = dashboardLinksMap.get(pathname)?.title;
 
   const handleReturnHome = () => {
-    router.push("/");
+    router.push("/dashboard");
   };
 
   const handleMinimize = () => {

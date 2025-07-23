@@ -2,7 +2,7 @@
 
 import { FaLink, FaRegFolderOpen } from "react-icons/fa6";
 
-import { MenuItemButton } from "@/components/MenuItemButton";
+import { MenuItemButton } from "@/components/menuItemButton";
 
 export function OpenDataSources() {
   const handleOpenFile = () => {

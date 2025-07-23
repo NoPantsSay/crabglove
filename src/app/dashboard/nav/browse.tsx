@@ -2,8 +2,8 @@
 
 import { usePathname, useRouter } from "next/navigation";
 
-import { MenuItemButton } from "@/components/MenuItemButton";
-import { browseLinks } from "../data/data";
+import { MenuItemButton } from "@/components/menuItemButton";
+import { browseLinks } from "../../data/data";
 
 export function Browse() {
   const pathname = usePathname();
