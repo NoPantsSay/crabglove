@@ -48,7 +48,7 @@ export function MenuItemButton({
       <button
         type="button"
         onClick={onClick}
-        className={`w-full flex flex-row min-h-8 py-1 px-4 gap-2 items-center ${isActive ? "bg-[var(--currentColorBackground)]" : "hover:bg-[var(--dashboardHoverBackground)]"} `}
+        className={`w-full flex flex-row min-h-8 py-1 px-4 gap-2 items-center  ${isActive ? "bg-(--currentColorBackground) hover:bg-(--currentColorHoverBackground)" : "hover:bg-(--dashboardHoverBackground) "} `}
         data-tooltip-id={tooltipId}
         data-tooltip-content={displayContent}
         data-tooltip-place="right"

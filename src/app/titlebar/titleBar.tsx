@@ -1,10 +1,17 @@
 "use client";
 
-import { getCurrentWindow } from "@tauri-apps/api/window";
+import { TauriEvent } from "@tauri-apps/api/event";
+import { Window } from "@tauri-apps/api/window";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { FaMinus, FaRegWindowRestore, FaXmark } from "react-icons/fa6";
+import {
+  FaMinus,
+  FaRegWindowMaximize,
+  FaRegWindowRestore,
+  FaXmark,
+} from "react-icons/fa6";
 
+import { useEffect, useMemo, useState } from "react";
 import { dashboardLinksMap } from "../data/data";
 
 export function TitleBar() {
@@ -13,30 +20,39 @@ export function TitleBar() {
   const isDisableReturnHome = pathname === "/dashboard";
   const title = dashboardLinksMap.get(pathname)?.title;
 
+  const appWindow = useMemo(() => new Window("main"), []);
+  const [isMaximized, setIsMaximized] = useState(false);
+
+  useEffect(() => {
+    const updateMaximizedStatus = async () => {
+      setIsMaximized(await appWindow.isMaximized());
+    };
+
+    const unlistenResized = appWindow.listen(TauriEvent.WINDOW_RESIZED, () => {
+      updateMaximizedStatus();
+    });
+
+    const clean = async () => {
+      await unlistenResized;
+    };
+
+    return () => {
+      clean();
+    };
+  }, [appWindow]);
+
   const handleReturnHome = () => {
     router.push("/dashboard");
   };
 
-  const handleMinimize = () => {
-    getCurrentWindow()
-      .minimize()
-      .catch((error: unknown) => {
-        console.error(error);
-      });
+  const handleMinimize = async () => {
+    await appWindow.minimize();
   };
-  const handleMaximize = () => {
-    getCurrentWindow()
-      .toggleMaximize()
-      .catch((error: unknown) => {
-        console.error(error);
-      });
+  const handleMaximize = async () => {
+    await appWindow.toggleMaximize();
   };
-  const handleClose = () => {
-    getCurrentWindow()
-      .close()
-      .catch((error: unknown) => {
-        console.error(error);
-      });
+  const handleClose = async () => {
+    await appWindow.close();
   };
 
   return (
@@ -68,7 +84,7 @@ export function TitleBar() {
           onClick={handleMaximize}
           className="px-1 py-1 hover:bg-[#3f3f3f] rounded-full"
         >
-          <FaRegWindowRestore />
+          {isMaximized ? <FaRegWindowRestore /> : <FaRegWindowMaximize />}
         </button>
         <button
           type="button"

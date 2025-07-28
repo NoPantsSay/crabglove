@@ -6,8 +6,20 @@
 } */
 
 :root {
-  --currentColorBackground: #ecb33015;
   --currentColor: #ecb330;
+  --currentColorBackground: color-mix(
+    in srgb,
+    var(--currentColor) 16%,
+    transparent
+  );
+  --currentColorHoverBackground: color-mix(
+    in srgb,
+    var(--currentColor) 24%,
+    transparent
+  );
+}
+
+:root {
   --dashboardHoverBackground: #0000000a;
   --dashboardBackground: #f4f4f4;
   --background: #ffffff;
