@@ -29,7 +29,7 @@ export function TitleBar() {
     };
 
     const unlistenResized = appWindow.listen(TauriEvent.WINDOW_RESIZED, () => {
-      updateMaximizedStatus();
+      void updateMaximizedStatus();
     });
 
     const clean = async () => {
@@ -37,7 +37,7 @@ export function TitleBar() {
     };
 
     return () => {
-      clean();
+      void clean();
     };
   }, [appWindow]);
 
@@ -74,21 +74,27 @@ export function TitleBar() {
       <div className="flex space-x-1 ml-auto">
         <button
           type="button"
-          onClick={handleMinimize}
+          onClick={() => {
+            void handleMinimize();
+          }}
           className="px-1 py-1 hover:bg-[#3f3f3f] rounded-full"
         >
           <FaMinus />
         </button>
         <button
           type="button"
-          onClick={handleMaximize}
+          onClick={() => {
+            void handleMaximize();
+          }}
           className="px-1 py-1 hover:bg-[#3f3f3f] rounded-full"
         >
           {isMaximized ? <FaRegWindowRestore /> : <FaRegWindowMaximize />}
         </button>
         <button
           type="button"
-          onClick={handleClose}
+          onClick={() => {
+            void handleClose();
+          }}
           className="px-1 py-1 hover:bg-[#3f3f3f] rounded-full"
         >
           <FaXmark />

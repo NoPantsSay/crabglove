@@ -71,18 +71,14 @@ export function D3CameraControls() {
             .multiplyScalar(defaultCameraDistance),
         );
 
-      controlsRef.current
-        .setLookAt(
-          postion.x,
-          postion.y,
-          postion.z,
-          defaultTarget.x,
-          defaultTarget.y,
-          defaultTarget.z,
-        )
-        .catch((error: unknown) => {
-          console.error(error);
-        });
+      void controlsRef.current.setLookAt(
+        postion.x,
+        postion.y,
+        postion.z,
+        defaultTarget.x,
+        defaultTarget.y,
+        defaultTarget.z,
+      );
 
       setResetCamera(false);
       setShowResetButton(false);
@@ -123,18 +119,14 @@ export function D3CameraControls() {
   // 初始化相机位置
   useEffect(() => {
     if (controlsRef.current) {
-      controlsRef.current
-        .setLookAt(
-          defaultCameraPostion.x,
-          defaultCameraPostion.y,
-          defaultCameraPostion.z,
-          defaultTarget.x,
-          defaultTarget.y,
-          defaultTarget.z,
-        )
-        .catch((error: unknown) => {
-          console.error(error);
-        });
+      void controlsRef.current.setLookAt(
+        defaultCameraPostion.x,
+        defaultCameraPostion.y,
+        defaultCameraPostion.z,
+        defaultTarget.x,
+        defaultTarget.y,
+        defaultTarget.z,
+      );
     }
   }, []);
 

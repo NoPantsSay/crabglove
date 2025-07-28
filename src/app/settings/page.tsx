@@ -19,19 +19,25 @@ export default function Page() {
           <span className="text-xs mb-1 py-1 ">配色方案</span>
           <div className="flex flex-row">
             <ColorSchemeButton
-              onClick={() => setTheme("dark")}
+              onClick={() => {
+                setTheme("dark");
+              }}
               label="暗色"
               Icon={FaMoon}
               isActive={theme === "dark"}
             />
             <ColorSchemeButton
-              onClick={() => setTheme("light")}
+              onClick={() => {
+                setTheme("light");
+              }}
               label="亮色"
               Icon={FaSun}
               isActive={theme === "light"}
             />
             <ColorSchemeButton
-              onClick={() => setTheme("system")}
+              onClick={() => {
+                setTheme("system");
+              }}
               label="跟随系统"
               Icon={FaDesktop}
               isActive={theme === "system"}
