@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@headlessui/react";
+import clsx from "clsx";
 import { useTheme } from "next-themes";
 import { useEffect, useId, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -42,17 +44,21 @@ export function SettingItemButton({
 
   return (
     <div>
-      <button
-        type="button"
+      <Button
         onClick={onClick}
-        className={`w-full flex flex-row min-h-8 py-1 pl-6 pr-4 gap-2 items-center ${isActive ? "bg-(--currentColorBackground) hover:bg-(--currentColorHoverBackground)" : "hover:bg-(--dashboardHoverBackground) "}  `}
+        className={clsx(
+          "w-full flex flex-row min-h-8 py-1 pl-6 pr-4 gap-2 items-center",
+          isActive
+            ? "bg-(--currentColorBackground) hover:bg-(--currentColorHoverBackground)"
+            : "hover:bg-(--secondHoverBackground) ",
+        )}
         data-tooltip-id={tooltipId}
         data-tooltip-content={displayContent}
         data-tooltip-place="right"
         data-tooltip-variant={isDark ? "dark" : "light"}
       >
         {label}
-      </button>
+      </Button>
 
       <Tooltip id={tooltipId} />
     </div>

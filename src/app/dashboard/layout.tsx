@@ -11,7 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex-auto flex flex-row flex-wrap overflow-hidden">
-      <div className="min-w-[280px] max-h-full bg-(--dashboardBackground) border-r border-[#585858] px-3 pt-5 pb-4  overflow-y-scroll text-xs ">
+      <div className="min-w-[280px] max-h-full bg-(--secondBackground) border-r border-[#585858] px-3 pt-5 pb-4  overflow-y-scroll text-xs ">
         <ul>
           <OpenDataSources />
           <hr className="mx-4 my-2 border-[#585858]" />

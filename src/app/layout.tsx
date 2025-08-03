@@ -11,15 +11,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="font-sans antialiased h-screen w-screen flex flex-col ">
+      <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem={true}
         >
-          <TitleBar />
+          <div className="h-screen w-screen flex flex-col">
+            <TitleBar />
 
-          {children}
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

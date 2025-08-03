@@ -1,7 +1,8 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { FaDesktop, FaMoon, FaSun } from "react-icons/fa6";
+import { BsLaptopFill } from "react-icons/bs";
+import { HiMiniMoon, HiMiniSun } from "react-icons/hi2";
 
 import { ColorSchemeButton } from "@/components/colorSchemeButton";
 
@@ -23,7 +24,7 @@ export default function Page() {
                 setTheme("dark");
               }}
               label="暗色"
-              Icon={FaMoon}
+              Icon={HiMiniMoon}
               isActive={theme === "dark"}
             />
             <ColorSchemeButton
@@ -31,7 +32,7 @@ export default function Page() {
                 setTheme("light");
               }}
               label="亮色"
-              Icon={FaSun}
+              Icon={HiMiniSun}
               isActive={theme === "light"}
             />
             <ColorSchemeButton
@@ -39,7 +40,7 @@ export default function Page() {
                 setTheme("system");
               }}
               label="跟随系统"
-              Icon={FaDesktop}
+              Icon={BsLaptopFill}
               isActive={theme === "system"}
             />
           </div>

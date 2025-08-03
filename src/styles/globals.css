@@ -20,15 +20,15 @@
 }
 
 :root {
-  --dashboardHoverBackground: #0000000a;
-  --dashboardBackground: #f4f4f4;
+  --secondHoverBackground: #0000000a;
+  --secondBackground: #f4f4f4;
   --background: #ffffff;
   --foreground: #393939;
 }
 
 .dark {
-  --dashboardHoverBackground: #ffffff14;
-  --dashboardBackground: #202020;
+  --secondHoverBackground: #ffffff14;
+  --secondBackground: #202020;
   --background: #121212;
   --foreground: #ffffff;
 }

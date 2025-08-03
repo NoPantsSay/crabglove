@@ -1,9 +1,12 @@
 "use client";
 
+import { Button } from "@headlessui/react";
 import { TauriEvent } from "@tauri-apps/api/event";
 import { Window } from "@tauri-apps/api/window";
+import clsx from "clsx";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import {
   FaMinus,
   FaRegWindowMaximize,
@@ -11,8 +14,8 @@ import {
   FaXmark,
 } from "react-icons/fa6";
 
-import { useEffect, useMemo, useState } from "react";
 import { dashboardLinksMap } from "../data/data";
+import { TitleTimeZone } from "./titleTimeZone";
 
 export function TitleBar() {
   const pathname = usePathname();
@@ -58,47 +61,46 @@ export function TitleBar() {
   return (
     <div
       data-tauri-drag-region
-      className="relative flex flex-row min-h-11 justify-between items-center bg-[#2c2c2c] text-white  border-b border-[#585858]"
+      className="flex flex-row min-h-11 justify-between items-center bg-[#2c2c2c] text-white  border-b border-[#585858]"
     >
-      <button
-        type="button"
+      <Button
         disabled={isDisableReturnHome}
         onClick={handleReturnHome}
-        className={`px-1.5 py-1 ${isDisableReturnHome ? "" : "hover:bg-[#3f3f3f]"}`}
+        className={clsx("py-1.5 px-1.5 ", {
+          "hover:bg-[#3f3f3f]": !isDisableReturnHome,
+        })}
       >
         <Image src="/32x32.png" alt="logo" width={32} height={32} priority />
-      </button>
-      <div className="absolute left-0 right-0 text-center text-sm pointer-events-none">
+      </Button>
+      <span className="text-center text-sm mx-auto pointer-events-none">
         {title}
-      </div>
-      <div className="flex space-x-1 ml-auto">
-        <button
-          type="button"
+      </span>
+      <TitleTimeZone />
+      <div className="flex gap-1 ">
+        <Button
           onClick={() => {
             void handleMinimize();
           }}
           className="px-1 py-1 hover:bg-[#3f3f3f] rounded-full"
         >
           <FaMinus />
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
           onClick={() => {
             void handleMaximize();
           }}
           className="px-1 py-1 hover:bg-[#3f3f3f] rounded-full"
         >
           {isMaximized ? <FaRegWindowRestore /> : <FaRegWindowMaximize />}
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
           onClick={() => {
             void handleClose();
           }}
           className="px-1 py-1 hover:bg-[#3f3f3f] rounded-full"
         >
           <FaXmark />
-        </button>
+        </Button>
       </div>
     </div>
   );

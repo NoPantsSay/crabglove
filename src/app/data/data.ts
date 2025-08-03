@@ -1,13 +1,16 @@
 import type { IconType } from "react-icons";
+
 import {
-  FaClapperboard,
-  FaGear,
-  FaHouse,
-  FaMicrochip,
-  FaRegBookmark,
-  FaRegCircleStop,
-  FaTableCellsLarge,
-} from "react-icons/fa6";
+  HiOutlineBars3,
+  HiOutlineBookmark,
+  HiOutlineHome,
+  HiOutlineSquares2X2,
+  HiOutlineStopCircle,
+} from "react-icons/hi2";
+
+import { RiLayoutMasonryLine } from "react-icons/ri";
+
+import { IoSettingsOutline } from "react-icons/io5";
 
 interface LinksProps {
   name: string;
@@ -21,42 +24,42 @@ export const browseLinks: LinksProps[] = [
     name: "仪表盘",
     title: "仪表盘",
     href: "/dashboard",
-    icon: FaHouse,
+    icon: HiOutlineHome,
   },
   {
     name: "设备",
     title: "设备",
     href: "/dashboard/devices",
-    icon: FaMicrochip,
+    icon: HiOutlineSquares2X2,
   },
   {
     name: "录制",
     title: "录制",
     href: "/dashboard/recordings",
-    icon: FaRegCircleStop,
+    icon: HiOutlineStopCircle,
   },
   {
     name: "事件",
     title: "事件",
     href: "/dashboard/events",
-    icon: FaRegBookmark,
+    icon: HiOutlineBookmark,
   },
   {
     name: "时间轴",
     title: "时间轴",
     href: "/dashboard/timeline",
-    icon: FaClapperboard,
+    icon: HiOutlineBars3,
   },
   {
     name: "布局",
     title: "布局",
     href: "/dashboard/layouts",
-    icon: FaTableCellsLarge,
+    icon: RiLayoutMasonryLine,
   },
 ];
 
 export const settingLinks: LinksProps[] = [
-  { name: "设置", title: "设置", href: "/settings", icon: FaGear },
+  { name: "设置", title: "设置", href: "/settings", icon: IoSettingsOutline },
 ];
 
 export const userSettingsLinks: LinksProps[] = [

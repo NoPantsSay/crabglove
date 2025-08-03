@@ -1,6 +1,6 @@
 "use client";
 
-import { FaLink, FaRegFolderOpen } from "react-icons/fa6";
+import { HiLink, HiOutlineFolder } from "react-icons/hi2";
 
 import { MenuItemButton } from "@/components/menuItemButton";
 
@@ -23,7 +23,7 @@ export function OpenDataSources() {
           onClick={handleOpenFile}
           hotkey="Ctrl+O"
           label="打开本地文件......"
-          Icon={FaRegFolderOpen}
+          Icon={HiOutlineFolder}
         />
       </li>
       <li>
@@ -31,7 +31,7 @@ export function OpenDataSources() {
           onClick={handleOpenConnect}
           hotkey="Ctrl+Shift+O"
           label="打开连接......"
-          Icon={FaLink}
+          Icon={HiLink}
         />
       </li>
     </>
