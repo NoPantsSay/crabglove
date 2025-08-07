@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 
 import { MenuItemButton } from "@/components/menuItemButton";
-import { browseLinks } from "../../data/data";
+import { browseLinks } from "../../data/menuData";
 
 export function Browse() {
   const pathname = usePathname();
@@ -12,7 +12,7 @@ export function Browse() {
   return (
     <>
       <li className="px-4 leading-8">
-        <span className="text-[#a7a7a7]">浏览</span>
+        <span className="text-(--descriptionColor)">浏览</span>
       </li>
       {browseLinks.map((link) => {
         const handleLink = () => {

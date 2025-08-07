@@ -16,7 +16,7 @@ export function OpenDataSources() {
   return (
     <>
       <li className="px-4 leading-8">
-        <span className="text-[#a7a7a7]">加载数据源</span>
+        <span className="text-(--descriptionColor)">加载数据源</span>
       </li>
       <li>
         <MenuItemButton

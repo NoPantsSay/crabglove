@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 
 import { MenuItemButton } from "@/components/menuItemButton";
-import { settingLinks } from "../../data/data";
+import { settingLinks } from "../../data/menuData";
 
 export function Setting() {
   const router = useRouter();

@@ -10,12 +10,17 @@ import {
   PopoverPanel,
 } from "@headlessui/react";
 import clsx from "clsx";
-import { getTimezoneOffset } from "date-fns-tz";
+import { formatInTimeZone } from "date-fns-tz";
+import { enUS } from "date-fns/locale/en-US";
 import { useMemo, useRef, useState } from "react";
 import { SlGlobe } from "react-icons/sl";
 
+import {
+  detectedTimeZone,
+  useTimeZoneStore,
+} from "@/app/data/useTimeZoneStore";
+
 const timeZones = Intl.supportedValuesOf("timeZone");
-const detectedTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 interface TimeZoneData {
   timeZone: string;
@@ -23,22 +28,16 @@ interface TimeZoneData {
   isDivide: boolean;
 }
 
-function getGMTOffset(timeZone: string): string {
-  const offsetMs = getTimezoneOffset(timeZone);
-  const offsetHours = Math.floor(offsetMs / (1000 * 60 * 60));
-  const offsetMinutes = Math.abs((offsetMs / (1000 * 60)) % 60);
-  const offsetSign = offsetMs >= 0 ? "+" : "-";
-  return `GMT${offsetSign}${Math.abs(offsetHours).toString().padStart(2, "0")}:${offsetMinutes.toString().padStart(2, "0")}`;
+function getGMT(timeZone: string): string {
+  return formatInTimeZone(new Date(), timeZone, "OOOO", {
+    locale: enUS,
+  });
 }
 
-function getGMTOffsetBrief(timeZone: string): string {
-  if (timeZone === "UTC") return "UTC";
-
-  const offsetMs = getTimezoneOffset(timeZone);
-  const offsetHours = Math.floor(offsetMs / (1000 * 60 * 60));
-  const offsetMinutes = Math.abs((offsetMs / (1000 * 60)) % 60);
-  const offsetSign = offsetMs >= 0 ? "+" : "-";
-  return `GMT${offsetMs !== 0 ? offsetSign : ""}${offsetHours !== 0 || offsetMinutes !== 0 ? Math.abs(offsetHours).toString() : ""}${offsetMinutes !== 0 ? `:${offsetMinutes.toString()}` : ""}`;
+function getGMTShort(timeZone: string): string {
+  return formatInTimeZone(new Date(), timeZone, "zzz", {
+    locale: enUS,
+  });
 }
 
 const timeZoneDatas: TimeZoneData[] = [
@@ -73,7 +72,7 @@ export function TitleTimeZone() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<TimeZoneData | null>(null);
-  const [current, setCurrent] = useState<string>(detectedTimeZone);
+  const { timeZone, setTimeZone } = useTimeZoneStore();
 
   const filteredTimeZone = useMemo(() => {
     return query === ""
@@ -95,9 +94,7 @@ export function TitleTimeZone() {
         className="flex gap-2 px-3 py-2.5 items-center hover:bg-[#3f3f3f] focus:not-data-focus:outline-none cursor-pointer"
       >
         <SlGlobe size={20} />
-        <span className="text-center text-xs/6">
-          {getGMTOffsetBrief(current)}
-        </span>
+        <span className="text-center text-xs/6">{getGMTShort(timeZone)}</span>
       </PopoverButton>
       <PopoverPanel
         anchor="bottom end"
@@ -114,7 +111,7 @@ export function TitleTimeZone() {
               onChange={(value) => {
                 setSelected(value);
                 if (value) {
-                  setCurrent(value.timeZone);
+                  setTimeZone(value.timeZone);
                   close();
                 }
               }}
@@ -134,7 +131,7 @@ export function TitleTimeZone() {
                   displayValue={(timeZone: TimeZoneData | null) =>
                     timeZone?.timeZone ?? ""
                   }
-                  placeholder={`current:${current}`}
+                  placeholder={`current:${timeZone}`}
                   onChange={(event) => {
                     setQuery(event.target.value);
                   }}
@@ -152,7 +149,7 @@ export function TitleTimeZone() {
                       disabled={option.isDivide}
                       className={clsx(
                         "w-full group flex cursor-pointer justify-between items-center px-4 py-1.5 text-xs/5 select-none",
-                        option.timeZone === current
+                        option.timeZone === timeZone
                           ? "bg-(--currentColorBackground) data-focus:bg-(--currentColorHoverBackground)"
                           : "data-focus:bg-(--secondHoverBackground)",
                         {
@@ -161,11 +158,11 @@ export function TitleTimeZone() {
                       )}
                     >
                       {option.isDivide ? (
-                        <hr className="w-full border-[#585858]" />
+                        <hr className="w-full border-(--borderColor)" />
                       ) : (
                         <>
                           <span>{option.display}</span>
-                          <span>{getGMTOffset(option.timeZone)}</span>
+                          <span>{getGMT(option.timeZone)}</span>
                         </>
                       )}
                     </ComboboxOption>

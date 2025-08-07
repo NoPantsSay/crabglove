@@ -14,7 +14,7 @@ import {
   FaXmark,
 } from "react-icons/fa6";
 
-import { dashboardLinksMap } from "../data/data";
+import { dashboardLinksMap } from "../data/menuData";
 import { TitleTimeZone } from "./titleTimeZone";
 
 export function TitleBar() {
@@ -61,7 +61,7 @@ export function TitleBar() {
   return (
     <div
       data-tauri-drag-region
-      className="flex flex-row min-h-11 justify-between items-center bg-[#2c2c2c] text-white  border-b border-[#585858]"
+      className="flex flex-row min-h-11 justify-between items-center bg-[#2c2c2c] text-white  border-b border-(--borderColor)"
     >
       <Button
         disabled={isDisableReturnHome}

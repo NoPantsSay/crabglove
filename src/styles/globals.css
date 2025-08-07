@@ -20,6 +20,8 @@
 }
 
 :root {
+  --descriptionColor: #6f6f6f;
+  --borderColor: #d6d6d6;
   --secondHoverBackground: #0000000a;
   --secondBackground: #f4f4f4;
   --background: #ffffff;
@@ -27,6 +29,8 @@
 }
 
 .dark {
+  --descriptionColor: #a7a7a7;
+  --borderColor: #585858;
   --secondHoverBackground: #ffffff14;
   --secondBackground: #202020;
   --background: #121212;

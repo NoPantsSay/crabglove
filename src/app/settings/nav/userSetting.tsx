@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 
 import { SettingItemButton } from "@/components/settingItemButton";
-import { userSettingsLinks } from "../../data/data";
+import { userSettingsLinks } from "../../data/menuData";
 
 export function UserSettings() {
   const pathname = usePathname();
@@ -12,7 +12,7 @@ export function UserSettings() {
   return (
     <>
       <li className="px-4 leading-7.5">
-        <span className="text-[#a7a7a7]">用户设置</span>
+        <span className="text-(--descriptionColor)">用户设置</span>
       </li>
       {userSettingsLinks.map((link) => {
         const handleLink = () => {
