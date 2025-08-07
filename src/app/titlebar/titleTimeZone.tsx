@@ -26,6 +26,7 @@ interface TimeZoneData {
   timeZone: string;
   display: string;
   isDivide: boolean;
+  isDetected: boolean;
 }
 
 function getGMT(timeZone: string): string {
@@ -45,16 +46,19 @@ const timeZoneDatas: TimeZoneData[] = [
     timeZone: detectedTimeZone,
     display: `Detected:${detectedTimeZone}`,
     isDivide: false,
+    isDetected: true,
   },
   {
     timeZone: "UTC",
     display: "UTC",
     isDivide: false,
+    isDetected: false,
   },
   {
     timeZone: "",
     display: "",
     isDivide: true,
+    isDetected: false,
   },
   ...timeZones
     .filter((timeZone) => timeZone !== "UTC")
@@ -63,6 +67,7 @@ const timeZoneDatas: TimeZoneData[] = [
         timeZone,
         display: timeZone,
         isDivide: false,
+        isDetected: false,
       };
     }),
 ];
@@ -72,7 +77,7 @@ export function TitleTimeZone() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<TimeZoneData | null>(null);
-  const { timeZone, setTimeZone } = useTimeZoneStore();
+  const { timeZone, setTimeZone, setIsDetected } = useTimeZoneStore();
 
   const filteredTimeZone = useMemo(() => {
     return query === ""
@@ -112,6 +117,7 @@ export function TitleTimeZone() {
                 setSelected(value);
                 if (value) {
                   setTimeZone(value.timeZone);
+                  setIsDetected(value.isDetected);
                   close();
                 }
               }}

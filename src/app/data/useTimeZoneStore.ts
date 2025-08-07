@@ -42,8 +42,10 @@ export const timeFormatsMap = new Map(
 
 interface timeZoneState {
   timeZone: string;
+  isDetected: boolean;
   timeFormat: string;
   setTimeZone: (input: string) => void;
+  setIsDetected: (input: boolean) => void;
   setTimeFormat: (input: string) => void;
 }
 
@@ -51,9 +53,13 @@ export const useTimeZoneStore = create<timeZoneState>()(
   persist(
     (set) => ({
       timeZone: detectedTimeZone,
+      isDetected: true,
       timeFormat: timeFormats[0].name,
       setTimeZone: (input: string) => {
         set({ timeZone: input });
+      },
+      setIsDetected: (input: boolean) => {
+        set({ isDetected: input });
       },
       setTimeFormat: (input: string) => {
         set({ timeFormat: input });
@@ -62,6 +68,12 @@ export const useTimeZoneStore = create<timeZoneState>()(
     {
       name: "timeZone", // unique name
       storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        if (state?.isDetected) {
+          console.log("Reset the detected time zone to the current time zone");
+          return { timeZone: detectedTimeZone };
+        }
+      },
     },
   ),
 );
