@@ -16,7 +16,12 @@ import clsx from "clsx";
 import { useTheme } from "next-themes";
 import { useMemo, useState } from "react";
 import { BsLaptopFill } from "react-icons/bs";
-import { HiChevronDown, HiMiniMoon, HiMiniSun } from "react-icons/hi2";
+import {
+  HiChevronDown,
+  HiChevronUp,
+  HiMiniMoon,
+  HiMiniSun,
+} from "react-icons/hi2";
 
 import {
   timeFormats,
@@ -30,12 +35,14 @@ const themes = [
   { name: "跟随系统", theme: "system", icon: BsLaptopFill },
 ];
 
+const languages = ["中文", "English"];
+
 export default function Page() {
   const { theme, setTheme } = useTheme();
-  const { timeFormat, setTimeFormat } = useTimeZoneStore();
+  const { timeZone, timeFormat, setTimeFormat } = useTimeZoneStore();
+  const [language, setLanguage] = useState(languages[0]);
 
   const date = useMemo(() => new Date(), []);
-  const { timeZone } = useTimeZoneStore();
 
   return (
     <div className="flex flex-auto flex-col p-6">
@@ -85,11 +92,18 @@ export default function Page() {
                   "relative w-full py-2 pl-2.5 pr-8 border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) outline-none text-left text-base/4",
                 )}
               >
-                {timeFormatsMap.get(timeFormat)?.format(date, timeZone)}
-                <HiChevronDown
-                  className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-(--foreground)"
-                  aria-hidden="true"
-                />
+                {({ open }) => {
+                  const IconComponent = open ? HiChevronUp : HiChevronDown;
+                  return (
+                    <>
+                      {timeFormatsMap.get(timeFormat)?.format(date, timeZone)}
+                      <IconComponent
+                        className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-(--foreground)"
+                        aria-hidden="true"
+                      />
+                    </>
+                  );
+                }}
               </ListboxButton>
               <ListboxOptions
                 anchor="bottom"
@@ -107,6 +121,51 @@ export default function Page() {
                   >
                     <Label className=" text-base pointer-events-none">
                       {data.format(date, timeZone)}
+                    </Label>
+                  </ListboxOption>
+                ))}
+              </ListboxOptions>
+            </Listbox>
+          </Field>
+          <Field className="mt-4">
+            <div className="mb-1 py-1">
+              <Label className="text-xs text-(--descriptionColor)">语言</Label>
+            </div>
+            <Listbox value={language} onChange={setLanguage}>
+              <ListboxButton
+                className={clsx(
+                  "relative w-full py-2 pl-2.5 pr-8 border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) outline-none text-left text-base/4",
+                )}
+              >
+                {({ open }) => {
+                  const IconComponent = open ? HiChevronUp : HiChevronDown;
+                  return (
+                    <>
+                      {language}
+                      <IconComponent
+                        className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-(--foreground)"
+                        aria-hidden="true"
+                      />
+                    </>
+                  );
+                }}
+              </ListboxButton>
+              <ListboxOptions
+                anchor="bottom"
+                className={clsx(
+                  "w-(--button-width) py-2 bg-(--secondBackground) outline-none",
+                )}
+              >
+                {languages.map((data) => (
+                  <ListboxOption
+                    key={data}
+                    value={data}
+                    className={clsx(
+                      "py-1.5 px-4 hover:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground)",
+                    )}
+                  >
+                    <Label className=" text-base pointer-events-none">
+                      {data}
                     </Label>
                   </ListboxOption>
                 ))}
