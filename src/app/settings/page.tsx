@@ -14,7 +14,7 @@ import {
 } from "@headlessui/react";
 import clsx from "clsx";
 import { useTheme } from "next-themes";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { BsLaptopFill } from "react-icons/bs";
 import {
   HiChevronDown,
@@ -29,31 +29,48 @@ import {
   useTimeZoneStore,
 } from "@/app/data/useTimeZoneStore";
 
-const themes = [
-  { name: "暗色", theme: "dark", icon: HiMiniMoon },
-  { name: "亮色", theme: "light", icon: HiMiniSun },
-  { name: "跟随系统", theme: "system", icon: BsLaptopFill },
-];
+import { languages, useLanguage } from "@/app/data/useLanguage";
 
-const languages = ["中文", "English"];
+const themes = [
+  {
+    display: "setting.theme.dark",
+    theme: "dark",
+    icon: HiMiniMoon,
+  },
+  {
+    display: "setting.theme.light",
+    theme: "light",
+    icon: HiMiniSun,
+  },
+  {
+    display: "setting.theme.follow_system",
+    theme: "system",
+    icon: BsLaptopFill,
+  },
+] as const;
 
 export default function Page() {
   const { theme, setTheme } = useTheme();
   const { timeZone, timeFormat, setTimeFormat } = useTimeZoneStore();
-  const [language, setLanguage] = useState(languages[0]);
+  const { language, setLanguage, getDisplay, getTranslator } = useLanguage();
+
+  const translator = getTranslator();
+  const languageDisplay = getDisplay();
 
   const date = useMemo(() => new Date(), []);
 
   return (
     <div className="flex flex-auto flex-col p-6">
       <Fieldset className="flex flex-col border border-(--borderColor)">
-        <Legend className="text-xl p-4">外观</Legend>
+        <Legend className="text-xl p-4">
+          {translator("setting.appearance")}
+        </Legend>
         <hr className="border-(--borderColor)" />
         <div className="flex flex-col p-4">
           <Field>
             <div className="mb-1 py-1">
               <Label className="text-xs text-(--descriptionColor)">
-                配色方案
+                {translator("setting.color_scheme")}
               </Label>
             </div>
             <RadioGroup
@@ -75,7 +92,7 @@ export default function Page() {
                   }
                 >
                   <data.icon size={20} />
-                  {data.name}
+                  {translator(data.display)}
                 </Radio>
               ))}
             </RadioGroup>
@@ -83,7 +100,7 @@ export default function Page() {
           <Field className="mt-4">
             <div className="mb-1 py-1">
               <Label className="text-xs text-(--descriptionColor)">
-                时间戳格式
+                {translator("setting.timestamp_format")}
               </Label>
             </div>
             <Listbox value={timeFormat} onChange={setTimeFormat}>
@@ -129,7 +146,9 @@ export default function Page() {
           </Field>
           <Field className="mt-4">
             <div className="mb-1 py-1">
-              <Label className="text-xs text-(--descriptionColor)">语言</Label>
+              <Label className="text-xs text-(--descriptionColor)">
+                {translator("setting.language")}
+              </Label>
             </div>
             <Listbox value={language} onChange={setLanguage}>
               <ListboxButton
@@ -141,7 +160,7 @@ export default function Page() {
                   const IconComponent = open ? HiChevronUp : HiChevronDown;
                   return (
                     <>
-                      {language}
+                      {languageDisplay}
                       <IconComponent
                         className="group pointer-events-none absolute top-2.5 right-2.5 size-4 fill-(--foreground)"
                         aria-hidden="true"
@@ -158,14 +177,14 @@ export default function Page() {
               >
                 {languages.map((data) => (
                   <ListboxOption
-                    key={data}
-                    value={data}
+                    key={data.name}
+                    value={data.name}
                     className={clsx(
                       "py-1.5 px-4 hover:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground)",
                     )}
                   >
                     <Label className=" text-base pointer-events-none">
-                      {data}
+                      {data.display}
                     </Label>
                   </ListboxOption>
                 ))}

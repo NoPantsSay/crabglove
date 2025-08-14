@@ -1,0 +1,31 @@
+{
+    "dashboard": {
+        "open_data_sources": "加载数据源",
+        "open_local_files": "打开本地文件...",
+        "open_connection": "打开连接...",
+        "browse": "浏览",
+        "dashboard": "仪表盘",
+        "devices": "设备",
+        "events": "事件",
+        "layouts": "布局",
+        "recordings": "录制",
+        "timeline": "时间线"
+    },
+    "setting": {
+        "appearance": "外观",
+        "back_to_dashboard": "返回仪表盘",
+        "color_scheme": "主题颜色",
+        "desktop": "桌面",
+        "extensions": "插件",
+        "general": "一般设置",
+        "language": "语言",
+        "settings": "设置",
+        "theme": {
+            "dark": "暗色",
+            "follow_system": "跟随系统",
+            "light": "亮色"
+        },
+        "timestamp_format": "时间戳格式",
+        "user_settings": "用户设置"
+    }
+}

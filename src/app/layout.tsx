@@ -1,5 +1,7 @@
 "use client";
+
 import "@/styles/globals.css";
+import { useLanguage } from "@/app/data/useLanguage";
 
 import { ThemeProvider } from "next-themes";
 import { TitleBar } from "./titlebar/titleBar";
@@ -9,8 +11,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { language } = useLanguage();
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={language} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <ThemeProvider
           attribute="class"

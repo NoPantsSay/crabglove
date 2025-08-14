@@ -14,17 +14,23 @@ import {
   FaXmark,
 } from "react-icons/fa6";
 
-import { dashboardLinksMap } from "../data/menuData";
+import { useLanguage } from "@/app/data/useLanguage";
+import { titlesMap } from "../data/menuData";
 import { TitleTimeZone } from "./titleTimeZone";
 
 export function TitleBar() {
   const pathname = usePathname();
   const router = useRouter();
   const isDisableReturnHome = pathname === "/dashboard";
-  const title = dashboardLinksMap.get(pathname)?.title;
 
   const appWindow = useMemo(() => new Window("main"), []);
   const [isMaximized, setIsMaximized] = useState(false);
+
+  const { getTranslator } = useLanguage();
+  const translator = getTranslator();
+
+  const title = titlesMap.get(pathname);
+  const titleDisplay = title ? translator(title) : "";
 
   useEffect(() => {
     const updateMaximizedStatus = async () => {
@@ -73,7 +79,7 @@ export function TitleBar() {
         <Image src="/32x32.png" alt="logo" width={32} height={32} priority />
       </Button>
       <span className="text-center text-sm mx-auto pointer-events-none">
-        {title}
+        {titleDisplay}
       </span>
       <TitleTimeZone />
       <div className="flex gap-1 ">

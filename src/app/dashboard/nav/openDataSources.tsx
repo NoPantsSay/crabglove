@@ -2,9 +2,13 @@
 
 import { HiLink, HiOutlineFolder } from "react-icons/hi2";
 
+import { useLanguage } from "@/app/data/useLanguage";
 import { MenuItemButton } from "@/components/menuItemButton";
 
 export function OpenDataSources() {
+  const { language, getTranslator } = useLanguage();
+  const translator = getTranslator();
+
   const handleOpenFile = () => {
     alert("open file");
   };
@@ -16,13 +20,17 @@ export function OpenDataSources() {
   return (
     <>
       <li className="px-4 leading-8">
-        <span className="text-(--descriptionColor)">加载数据源</span>
+        <span className="text-(--descriptionColor)">
+          {translator("dashboard.open_data_sources").toLocaleUpperCase(
+            language,
+          )}
+        </span>
       </li>
       <li>
         <MenuItemButton
           onClick={handleOpenFile}
           hotkey="Ctrl+O"
-          label="打开本地文件......"
+          label={translator("dashboard.open_local_files")}
           Icon={HiOutlineFolder}
         />
       </li>
@@ -30,7 +38,7 @@ export function OpenDataSources() {
         <MenuItemButton
           onClick={handleOpenConnect}
           hotkey="Ctrl+Shift+O"
-          label="打开连接......"
+          label={translator("dashboard.open_connection")}
           Icon={HiLink}
         />
       </li>

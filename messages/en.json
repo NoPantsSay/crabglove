@@ -1,0 +1,31 @@
+{
+  "dashboard": {
+    "open_data_sources": "Open data sources",
+    "open_local_files": "Open local files...",
+    "open_connection": "Open connection...",
+    "browse": "Browse",
+    "dashboard": "Dashboard",
+    "devices": "Devices",
+    "events": "Events",
+    "layouts": "Layouts",
+    "recordings": "Recordings",
+    "timeline": "Timeline"
+  },
+  "setting": {
+    "appearance": "Appearance",
+    "back_to_dashboard": "Back to dashboard",
+    "color_scheme": "Color scheme",
+    "desktop": "Desktop",
+    "extensions": "Extensions",
+    "general": "General",
+    "language": "Language",
+    "settings": "Settings",
+    "theme": {
+      "dark": "Dark",
+      "follow_system": "Follow system",
+      "light": "Light"
+    },
+    "timestamp_format": "Visualization timestamp format",
+    "user_settings": "User settings"
+  }
+}

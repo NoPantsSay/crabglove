@@ -12,76 +12,80 @@ import { RiLayoutMasonryLine } from "react-icons/ri";
 
 import { IoSettingsOutline } from "react-icons/io5";
 
-interface LinksProps {
-  name: string;
-  title: string;
-  href: string;
-  icon?: IconType;
-}
-
-export const browseLinks: LinksProps[] = [
+export const browseLinks = [
   {
-    name: "仪表盘",
-    title: "仪表盘",
+    name: "dashboard.dashboard",
+    title: "dashboard.dashboard",
     href: "/dashboard",
     icon: HiOutlineHome,
   },
   {
-    name: "设备",
-    title: "设备",
+    name: "dashboard.devices",
+    title: "dashboard.devices",
     href: "/dashboard/devices",
     icon: HiOutlineSquares2X2,
   },
   {
-    name: "录制",
-    title: "录制",
+    name: "dashboard.recordings",
+    title: "dashboard.recordings",
     href: "/dashboard/recordings",
     icon: HiOutlineStopCircle,
   },
   {
-    name: "事件",
-    title: "事件",
+    name: "dashboard.events",
+    title: "dashboard.events",
     href: "/dashboard/events",
     icon: HiOutlineBookmark,
   },
   {
-    name: "时间轴",
-    title: "时间轴",
+    name: "dashboard.timeline",
+    title: "dashboard.timeline",
     href: "/dashboard/timeline",
     icon: HiOutlineBars3,
   },
   {
-    name: "布局",
-    title: "布局",
+    name: "dashboard.layouts",
+    title: "dashboard.layouts",
     href: "/dashboard/layouts",
     icon: RiLayoutMasonryLine,
   },
-];
+] as const;
 
-export const settingLinks: LinksProps[] = [
-  { name: "设置", title: "设置", href: "/settings", icon: IoSettingsOutline },
-];
-
-export const userSettingsLinks: LinksProps[] = [
+export const settingLinks = [
   {
-    name: "通用",
-    title: "设置",
+    name: "setting.settings",
+    title: "setting.settings",
+    href: "/settings",
+    icon: IoSettingsOutline,
+  },
+] as const;
+
+export const userSettingsLinks = [
+  {
+    name: "setting.general",
+    title: "setting.settings",
     href: "/settings",
   },
   {
-    name: "插件",
-    title: "设置",
+    name: "setting.extensions",
+    title: "setting.settings",
     href: "/settings/extensions",
   },
   {
-    name: "桌面",
-    title: "设置",
+    name: "setting.desktop",
+    title: "setting.settings",
     href: "/settings/desktop",
   },
-];
+] as const;
 
-export const dashboardLinksMap = new Map([
-  ...browseLinks.map((link) => [link.href, link] as const),
-  ...settingLinks.map((link) => [link.href, link] as const),
-  ...userSettingsLinks.map((link) => [link.href, link] as const),
+export const titlesMap = new Map([
+  ...browseLinks.map(
+    (link) => [link.href as string, link.title as string] as const,
+  ),
+  ...settingLinks.map(
+    (link) => [link.href as string, link.title as string] as const,
+  ),
+  ...userSettingsLinks.map(
+    (link) => [link.href as string, link.title as string] as const,
+  ),
 ]);

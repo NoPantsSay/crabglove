@@ -34,10 +34,10 @@ export const timeFormats = [
     format: (date: Date, timeZone: string) =>
       Decimal(date.getTime()).dividedBy(1000).toFixed(9),
   },
-];
+] as const;
 
 export const timeFormatsMap = new Map(
-  timeFormats.map((data) => [data.name, data] as const),
+  timeFormats.map((data) => [data.name as string, data] as const),
 );
 
 interface timeZoneState {
@@ -70,7 +70,7 @@ export const useTimeZoneStore = create<timeZoneState>()(
       storage: createJSONStorage(() => localStorage),
       onRehydrateStorage: () => (state) => {
         if (state?.isDetected) {
-          console.log("Reset the detected time zone to the current time zone");
+          console.log("重置当前时区为检测时间");
           return { timeZone: detectedTimeZone };
         }
       },
