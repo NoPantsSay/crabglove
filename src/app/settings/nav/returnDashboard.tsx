@@ -18,7 +18,7 @@ export function ReturnDashboard() {
         onClick={() => {
           router.push("/dashboard");
         }}
-        className="w-full flex flex-row min-h-8 py-1 px-4 mb-2 gap-2 items-center text-(--currentColor) hover:bg-(--secondHoverBackground) "
+        className="w-full flex flex-row min-h-8 py-1 px-4 mb-2 gap-2 items-center text-(--currentColor) hover:bg-(--secondHoverBackground) cursor-pointer"
       >
         <FaArrowLeft size={20} color="var(--currentColor)" />
         {translator("setting.back_to_dashboard")}

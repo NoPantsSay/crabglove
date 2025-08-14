@@ -86,7 +86,7 @@ export default function Page() {
                   value={data.theme}
                   className={({ checked }) =>
                     clsx(
-                      "flex flex-row min-h-8 py-1 px-4 gap-2 border border-(--borderColor) items-center text-xs",
+                      "flex flex-row min-h-8 py-1 px-4 gap-2 border border-(--borderColor) items-center text-xs cursor-pointer",
                       checked
                         ? "text-(--currentColor) bg-(--currentColorBackground) hover:bg-(--currentColorHoverBackground)"
                         : "hover:bg-(--secondHoverBackground)",
@@ -109,7 +109,7 @@ export default function Page() {
             <Listbox value={timeFormat} onChange={setTimeFormat}>
               <ListboxButton
                 className={clsx(
-                  "relative w-full py-2 pl-2.5 pr-8 border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) outline-none text-left text-base/4",
+                  "relative w-full py-2 pl-2.5 pr-8 border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) outline-none cursor-pointer text-left text-base/4",
                 )}
               >
                 {({ open }) => {
@@ -136,7 +136,7 @@ export default function Page() {
                     key={data.name}
                     value={data.name}
                     className={clsx(
-                      "py-1.5 px-4 hover:bg-(--secondHoverBackground) data-focus:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground) data-selected:data-focus:bg-(--currentColorHoverBackground)",
+                      "py-1.5 px-4 cursor-pointer hover:bg-(--secondHoverBackground) data-focus:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground) data-selected:data-focus:bg-(--currentColorHoverBackground)",
                     )}
                   >
                     <div
@@ -169,7 +169,7 @@ export default function Page() {
             <Listbox value={language} onChange={setLanguage}>
               <ListboxButton
                 className={clsx(
-                  "relative w-full py-2 pl-2.5 pr-8 border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) outline-none text-left text-base/4",
+                  "relative w-full py-2 pl-2.5 pr-8 cursor-pointer border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) outline-none text-left text-base/4",
                 )}
               >
                 {({ open }) => {
@@ -196,7 +196,7 @@ export default function Page() {
                     key={data.name}
                     value={data.name}
                     className={clsx(
-                      "py-1.5 px-4 hover:bg-(--secondHoverBackground) data-focus:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground) data-selected:data-focus:bg-(--currentColorHoverBackground)",
+                      "py-1.5 px-4 cursor-pointer hover:bg-(--secondHoverBackground) data-focus:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground) data-selected:data-focus:bg-(--currentColorHoverBackground)",
                     )}
                   >
                     <Label className=" text-base pointer-events-none">

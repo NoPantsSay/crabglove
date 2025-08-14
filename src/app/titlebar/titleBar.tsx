@@ -72,8 +72,8 @@ export function TitleBar() {
       <Button
         disabled={isDisableReturnHome}
         onClick={handleReturnHome}
-        className={clsx("py-1.5 px-1.5 ", {
-          "hover:bg-[#3f3f3f]": !isDisableReturnHome,
+        className={clsx("py-1.5 px-1.5", {
+          "hover:bg-[#3f3f3f] cursor-pointer": !isDisableReturnHome,
         })}
       >
         <Image src="/32x32.png" alt="logo" width={32} height={32} priority />

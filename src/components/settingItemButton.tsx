@@ -47,7 +47,7 @@ export function SettingItemButton({
       <Button
         onClick={onClick}
         className={clsx(
-          "w-full flex flex-row min-h-8 py-1 pl-6 pr-4 gap-2 items-center",
+          "w-full flex flex-row min-h-8 py-1 pl-6 pr-4 gap-2 items-center cursor-pointer",
           isActive
             ? "bg-(--currentColorBackground) hover:bg-(--currentColorHoverBackground)"
             : "hover:bg-(--secondHoverBackground) ",
