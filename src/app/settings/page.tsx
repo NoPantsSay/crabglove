@@ -22,14 +22,14 @@ import {
   HiMiniMoon,
   HiMiniSun,
 } from "react-icons/hi2";
+import { Tooltip } from "react-tooltip";
 
+import { languages, useLanguage } from "@/app/data/useLanguage";
 import {
   timeFormats,
   timeFormatsMap,
   useTimeZoneStore,
 } from "@/app/data/useTimeZoneStore";
-
-import { languages, useLanguage } from "@/app/data/useLanguage";
 
 const themes = [
   {
@@ -50,7 +50,7 @@ const themes = [
 ] as const;
 
 export default function Page() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const { timeZone, timeFormat, setTimeFormat } = useTimeZoneStore();
   const { language, setLanguage, getDisplay, getTranslator } = useLanguage();
 
@@ -61,12 +61,14 @@ export default function Page() {
 
   return (
     <div className="flex flex-auto flex-col p-6">
+      {/* 外观 */}
       <Fieldset className="flex flex-col border border-(--borderColor)">
         <Legend className="text-xl p-4">
           {translator("setting.appearance")}
         </Legend>
         <hr className="border-(--borderColor)" />
         <div className="flex flex-col p-4">
+          {/* 主题颜色 */}
           <Field>
             <div className="mb-1 py-1">
               <Label className="text-xs text-(--descriptionColor)">
@@ -97,6 +99,7 @@ export default function Page() {
               ))}
             </RadioGroup>
           </Field>
+          {/* 时间戳格式 */}
           <Field className="mt-4">
             <div className="mb-1 py-1">
               <Label className="text-xs text-(--descriptionColor)">
@@ -133,17 +136,30 @@ export default function Page() {
                     key={data.name}
                     value={data.name}
                     className={clsx(
-                      "py-1.5 px-4 hover:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground)",
+                      "py-1.5 px-4 hover:bg-(--secondHoverBackground) data-focus:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground) data-selected:data-focus:bg-(--currentColorHoverBackground)",
                     )}
                   >
-                    <Label className=" text-base pointer-events-none">
-                      {data.format(date, timeZone)}
-                    </Label>
+                    <div
+                      data-tooltip-id={data.name}
+                      data-tooltip-content={data.name}
+                    >
+                      <Label className=" text-base pointer-events-none">
+                        {data.format(date, timeZone)}
+                      </Label>
+                    </div>
+
+                    <Tooltip
+                      id={data.name}
+                      place="left"
+                      positionStrategy="fixed"
+                      variant={resolvedTheme === "dark" ? "dark" : "light"}
+                    />
                   </ListboxOption>
                 ))}
               </ListboxOptions>
             </Listbox>
           </Field>
+          {/* 语言 */}
           <Field className="mt-4">
             <div className="mb-1 py-1">
               <Label className="text-xs text-(--descriptionColor)">
@@ -180,7 +196,7 @@ export default function Page() {
                     key={data.name}
                     value={data.name}
                     className={clsx(
-                      "py-1.5 px-4 hover:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground)",
+                      "py-1.5 px-4 hover:bg-(--secondHoverBackground) data-focus:bg-(--secondHoverBackground) data-selected:bg-(--currentColorBackground) data-selected:hover:bg-(--currentColorHoverBackground) data-selected:data-focus:bg-(--currentColorHoverBackground)",
                     )}
                   >
                     <Label className=" text-base pointer-events-none">
