@@ -7,7 +7,9 @@ import { TopRightButtonContext } from "./topRightButtonContext";
 
 export function TopRightButtonProvider({
   children,
-}: { children: React.ReactNode }) {
+}: {
+  children: React.ReactNode;
+}) {
   const [showResetButton, setShowResetButton] = useState(false);
   const [resetCamera, setResetCamera] = useState(false);
   const [is3D, setIs3D] = useState(true);

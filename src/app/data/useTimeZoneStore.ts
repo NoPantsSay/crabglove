@@ -1,5 +1,5 @@
-import { formatInTimeZone } from "date-fns-tz";
 import { enUS } from "date-fns/locale/en-US";
+import { formatInTimeZone } from "date-fns-tz";
 import { Decimal } from "decimal.js";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -31,7 +31,7 @@ export const timeFormats = [
   },
   {
     name: "Seconds",
-    format: (date: Date, timeZone: string) =>
+    format: (date: Date, _timeZone: string) =>
       Decimal(date.getTime()).dividedBy(1000).toFixed(9),
   },
 ] as const;

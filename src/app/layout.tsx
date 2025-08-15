@@ -1,9 +1,9 @@
 "use client";
 
 import "@/styles/globals.css";
-import { useLanguage } from "@/app/data/useLanguage";
 
 import { ThemeProvider } from "next-themes";
+import { useLanguage } from "@/app/data/useLanguage";
 import { TitleBar } from "./titlebar/titleBar";
 
 export default function RootLayout({

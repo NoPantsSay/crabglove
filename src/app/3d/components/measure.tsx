@@ -1,6 +1,6 @@
 "use client";
 
-import { Billboard, Circle, Line, Text } from "@react-three/drei";
+import { Billboard, Circle, Line } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useCallback, useContext, useEffect, useMemo } from "react";
 import * as THREE from "three";
@@ -22,7 +22,10 @@ function FixedSizeDot({ position }: { position: THREE.Vector3 }) {
 function FixedSizeLineTextDot({
   point1,
   point2,
-}: { point1: THREE.Vector3; point2: THREE.Vector3 }) {
+}: {
+  point1: THREE.Vector3;
+  point2: THREE.Vector3;
+}) {
   return (
     <group>
       <Line points={[point1, point2]} color="red" lineWidth={1} />
@@ -52,7 +55,7 @@ export function Measure() {
   const { camera, pointer, gl } = useThree();
 
   // 更新在Canvas上2d的坐标
-  useFrame((state, delta) => {
+  useFrame((_state, _delta) => {
     if (measurePoints.length !== 2) {
       setMeasureTextPos(null);
       return;
@@ -97,7 +100,7 @@ export function Measure() {
 
   // 鼠标点击
   const handleClick = useCallback(
-    (event: MouseEvent) => {
+    (_event: MouseEvent) => {
       if (!isMeasure) return;
 
       const raycaster = new THREE.Raycaster();
@@ -129,7 +132,7 @@ export function Measure() {
 
   // 鼠标移动
   const handleMouseMove = useCallback(
-    (event: MouseEvent) => {
+    (_event: MouseEvent) => {
       if (!isMeasure) return;
 
       const raycaster = new THREE.Raycaster();

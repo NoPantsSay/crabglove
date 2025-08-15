@@ -1,5 +1,3 @@
-import type { IconType } from "react-icons";
-
 import {
   HiOutlineBars3,
   HiOutlineBookmark,
@@ -7,10 +5,8 @@ import {
   HiOutlineSquares2X2,
   HiOutlineStopCircle,
 } from "react-icons/hi2";
-
-import { RiLayoutMasonryLine } from "react-icons/ri";
-
 import { IoSettingsOutline } from "react-icons/io5";
+import { RiLayoutMasonryLine } from "react-icons/ri";
 
 export const browseLinks = [
   {

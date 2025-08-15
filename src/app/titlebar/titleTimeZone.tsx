@@ -10,8 +10,8 @@ import {
   PopoverPanel,
 } from "@headlessui/react";
 import clsx from "clsx";
-import { formatInTimeZone } from "date-fns-tz";
 import { enUS } from "date-fns/locale/en-US";
+import { formatInTimeZone } from "date-fns-tz";
 import { useMemo, useRef, useState } from "react";
 import { SlGlobe } from "react-icons/sl";
 
