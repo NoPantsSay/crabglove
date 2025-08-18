@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Browse } from "./nav/browse";
 import { OpenDataSources } from "./nav/openDataSources";
 import { Setting } from "./nav/setting";
@@ -9,15 +10,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <div className="flex-auto flex flex-row flex-wrap overflow-hidden">
       <div className="min-w-[280px] max-h-full bg-(--secondBackground) border-r border-(--borderColor) px-3 pt-5 pb-4  overflow-y-scroll text-xs ">
         <ul>
-          <OpenDataSources />
+          {isClient && <OpenDataSources />}
           <hr className="mx-4 my-2 border-(--borderColor)" />
-          <Browse />
+          {isClient && <Browse />}
           <hr className="mx-4 my-2 border-(--borderColor)" />
-          <Setting />
+          {isClient && <Setting />}
         </ul>
       </div>
 

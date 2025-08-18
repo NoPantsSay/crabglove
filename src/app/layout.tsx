@@ -3,6 +3,7 @@
 import "@/styles/globals.css";
 
 import { ThemeProvider } from "next-themes";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/app/data/useLanguage";
 import { TitleBar } from "./titlebar/titleBar";
 
@@ -13,6 +14,12 @@ export default function RootLayout({
 }>) {
   const { language } = useLanguage();
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <html lang={language} suppressHydrationWarning>
       <body className="font-sans antialiased">
@@ -22,7 +29,7 @@ export default function RootLayout({
           enableSystem={true}
         >
           <div className="h-screen w-screen flex flex-col">
-            <TitleBar />
+            {isClient && <TitleBar />}
 
             {children}
           </div>
