@@ -1,11 +1,17 @@
 "use client";
 
+import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 
 import { ThemeProvider } from "next-themes";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/app/data/useLanguage";
 import { TitleBar } from "./titlebar/titleBar";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
 
 export default function RootLayout({
   children,
@@ -22,7 +28,7 @@ export default function RootLayout({
 
   return (
     <html lang={language} suppressHydrationWarning>
-      <body className="font-sans antialiased">
+      <body className={`${inter.className} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
