@@ -1,3 +1,4 @@
+import type { IconType } from "react-icons";
 import {
   HiOutlineBars3,
   HiOutlineBookmark,
@@ -8,7 +9,14 @@ import {
 import { IoSettingsOutline } from "react-icons/io5";
 import { RiLayoutMasonryLine } from "react-icons/ri";
 
-export const browseLinks = [
+interface LinkInfo {
+  name: string;
+  title: string;
+  href: string;
+  icon?: IconType;
+}
+
+export const browseLinks: LinkInfo[] = [
   {
     name: "dashboard.dashboard",
     title: "dashboard.dashboard",
@@ -45,18 +53,18 @@ export const browseLinks = [
     href: "/dashboard/layouts",
     icon: RiLayoutMasonryLine,
   },
-] as const;
+];
 
-export const settingLinks = [
+export const settingLinks: LinkInfo[] = [
   {
     name: "setting.settings",
     title: "setting.settings",
     href: "/settings",
     icon: IoSettingsOutline,
   },
-] as const;
+];
 
-export const userSettingsLinks = [
+export const userSettingsLinks: LinkInfo[] = [
   {
     name: "setting.general",
     title: "setting.settings",
@@ -72,16 +80,10 @@ export const userSettingsLinks = [
     title: "setting.settings",
     href: "/settings/desktop",
   },
-] as const;
+];
 
 export const titlesMap = new Map([
-  ...browseLinks.map(
-    (link) => [link.href as string, link.title as string] as const,
-  ),
-  ...settingLinks.map(
-    (link) => [link.href as string, link.title as string] as const,
-  ),
-  ...userSettingsLinks.map(
-    (link) => [link.href as string, link.title as string] as const,
-  ),
+  ...browseLinks.map((link) => [link.href, link.title] as const),
+  ...settingLinks.map((link) => [link.href, link.title] as const),
+  ...userSettingsLinks.map((link) => [link.href, link.title] as const),
 ]);

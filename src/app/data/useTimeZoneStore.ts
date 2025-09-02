@@ -7,7 +7,12 @@ import { createJSONStorage, persist } from "zustand/middleware";
 export const detectedTimeZone =
   Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-export const timeFormats = [
+interface TimeFormatInfo {
+  name: string;
+  format: (date: Date, timeZone: string) => string;
+}
+
+export const timeFormats: TimeFormatInfo[] = [
   {
     name: "12-hour",
     format: (date: Date, timeZone: string) =>
@@ -34,10 +39,10 @@ export const timeFormats = [
     format: (date: Date, _timeZone: string) =>
       Decimal(date.getTime()).dividedBy(1000).toFixed(9),
   },
-] as const;
+];
 
 export const timeFormatsMap = new Map(
-  timeFormats.map((data) => [data.name as string, data] as const),
+  timeFormats.map((data) => [data.name, data]),
 );
 
 interface timeZoneState {

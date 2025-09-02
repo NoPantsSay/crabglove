@@ -7,7 +7,13 @@ import zhMessages from "@/../messages/zh.json";
 
 type Translator = ReturnType<typeof createTranslator>;
 
-export const languages = [
+interface LanguageInfo {
+  name: string;
+  display: string;
+  translator: Translator;
+}
+
+export const languages: LanguageInfo[] = [
   {
     name: "zh",
     display: "中文",
@@ -18,11 +24,9 @@ export const languages = [
     display: "English",
     translator: createTranslator({ locale: "en", messages: enMessages }),
   },
-] as const;
+];
 
-const languagesMap = new Map(
-  languages.map((data) => [data.name as string, data] as const),
-);
+const languagesMap = new Map(languages.map((data) => [data.name, data]));
 
 interface LanguageState {
   language: string;
