@@ -20,16 +20,16 @@ export default function RootLayout({
   return (
     <div
       className={clsx(
-        "flex max-w-full max-h-full",
-        "not-sm:flex-1 not-sm:flex-col not-sm:overflow-y-auto",
-        "sm:flex-auto sm:flex-row sm:overflow-hidden",
+        "grid",
+        "not-sm:grid-rows-[auto_auto] not-sm:overflow-y-auto",
+        "sm:grid-cols-[auto_1fr] sm:overflow-hidden",
       )}
     >
       <div
         className={clsx(
           "block min-w-[280px] bg-(--secondBackground) border-r border-(--borderColor) px-3 pt-5 pb-4 text-xs ",
           "not-sm:overflow-y-hide",
-          "sm:overflow-y-auto sm:max-h-full",
+          "sm:overflow-y-auto",
         )}
       >
         <ul>
@@ -41,13 +41,7 @@ export default function RootLayout({
         </ul>
       </div>
 
-      <div
-        className={clsx(
-          "flex flex-col flex-auto overflow-hide bg-(--background)",
-        )}
-      >
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

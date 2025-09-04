@@ -15,8 +15,8 @@
         "title": "crabglove",
         "width": 1000,
         "height": 800,
-        "minWidth": 280,
-        "minHeight": 280,
+        "minWidth": 350,
+        "minHeight": 250,
         "resizable": true,
         "fullscreen": false,
         "decorations": false

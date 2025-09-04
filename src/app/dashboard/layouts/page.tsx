@@ -47,9 +47,11 @@ export default function Page() {
   const LayoutsSortIconComponent = layoutsSortUp ? HiArrowUp : HiArrowDown;
 
   return (
-    <div className="flex flex-auto p-6 overflow-hidden">
-      <div className="flex flex-auto flex-col border border-(--borderColor) overflow-x-auto">
-        {/* 标题栏 */}
+    <div className="grid p-6">
+      <div className="grid grid-rows-[auto_auto_1fr] border border-(--borderColor)">
+        {
+          // 标题栏
+        }
         <div className="flex flex-row justify-between items-center p-3 border-b border-b-(--borderColor)">
           <span className="text-base">Layout</span>
           <Menu>
@@ -77,10 +79,18 @@ export default function Page() {
             </MenuItems>
           </Menu>
         </div>
-        {/* 过滤栏 */}
-        <div className="flex flex-row gap-3 justify-between items-center p-3 overflow-x-auto">
-          {/* 名字 */}
-          <Field className="flex flex-col min-w-25 w-full">
+        {
+          // 过滤栏
+        }
+        <div
+          className={clsx(
+            "grid grid-cols-[minmax(100px,_1fr)_minmax(100px,_1fr)_minmax(100px,_1fr)] gap-3 justify-between items-center p-3 overflow-x-auto",
+          )}
+        >
+          {
+            // 名字
+          }
+          <Field className="flex flex-col ">
             <Label className="py-1 text-sm text-(--descriptionColor)">
               Search
             </Label>
@@ -95,15 +105,17 @@ export default function Page() {
               )}
             />
           </Field>
-          {/* 类型 */}
-          <Field className="flex flex-col min-w-25 w-full">
+          {
+            // 类型
+          }
+          <Field className="flex flex-col">
             <Label className="py-1 text-sm text-(--descriptionColor) ">
               Type
             </Label>
             <Listbox value={layoutType} onChange={setLayoutType}>
               <ListboxButton
                 className={clsx(
-                  "relative w-full py-2 px-2.5 text-sm text-(--descriptionColor) border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) rounded-none outline-none text-left cursor-pointer",
+                  "relative py-2 px-2.5 text-sm text-(--descriptionColor) border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) rounded-none outline-none text-left cursor-pointer",
                 )}
               >
                 {({ open }) => {
@@ -141,10 +153,12 @@ export default function Page() {
               </ListboxOptions>
             </Listbox>
           </Field>
-          {/* 过滤更新时间 */}
-          <Field className="flex flex-col min-w-25 w-full">
+          {
+            // 过滤更新时间
+          }
+          <Field className="flex flex-col">
             <Label className="py-1 text-sm text-(--descriptionColor) ">
-              Type
+              Lasted update
             </Label>
             <Listbox
               value={layoutUpdateFilter}
@@ -152,7 +166,7 @@ export default function Page() {
             >
               <ListboxButton
                 className={clsx(
-                  "relative w-full py-2 px-2.5 text-sm text-(--descriptionColor) border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) rounded-none outline-none text-left cursor-pointer",
+                  "relative py-2 px-2.5 text-sm text-(--descriptionColor) border border-(--borderColor) hover:border-(--foreground) focus:border-(--currentColor) data-open:border-(--currentColor) rounded-none outline-none text-left cursor-pointer",
                 )}
               >
                 {({ open }) => {
@@ -191,52 +205,52 @@ export default function Page() {
             </Listbox>
           </Field>
         </div>
-        <hr className="mt-2 border-0  border-b border-(--borderColor)"></hr>
-        <div className="block relative">
-          {/* <div className="absolute"></div> */}
-          <div className="flex flex-col overflow-auto">
-            <div className="flex flex-row sticky h-10 border-b border-(--borderColor) items-center">
-              <div className="flex flex-row w-10 h-full items-center justify-center">
-                <Checkbox
-                  checked={headerChecked}
-                  onChange={setHeaderChecked}
-                  className={clsx(
-                    "group size-5 rounded-xs bg-(--background) outline-none data-checked:bg-(--currentColor) items-center cursor-pointer",
-                    {
-                      "ring-2 ring-(--descriptionColor) ring-inset":
-                        !headerChecked,
-                    },
-                  )}
-                >
-                  <HiCheck
-                    className="hidden fill-(--background) group-data-checked:block"
-                    size={20}
-                  />
-                </Checkbox>
-              </div>
-              <div className="flex flex-row w-37.5 h-full items-center px-2.5">
-                <span className="text-xs">Layouts</span>
-                <Button
-                  onClick={() => {
-                    setLayoutsSortUp(!layoutsSortUp);
-                  }}
-                  className="group flex size-6 p-1 items-center outline-none cursor-pointer hover:bg-(--secondHoverBackground)"
-                >
-                  <LayoutsSortIconComponent
-                    className="hidden group-hover:block"
-                    size={20}
-                  />
-                </Button>
-              </div>
-              <div className="flex flex-row w-35 h-full items-center px-2.5">
-                <span className="text-xs">Type</span>
-              </div>
-              <div className="flex flex-row w-30 h-full items-center px-2.5">
-                <span className="text-xs">Last Updated</span>
-              </div>
-              <div className="flex flex-row w-30 h-full items-center px-2.5">
-                <span className="text-xs">Last Opened</span>
-              </div>
+        <div className="relative flex flex-1 flex-col mt-2 border-t border-t-(--borderColor) overflow-auto">
+          <div
+            className={clsx(
+              "grid grid-cols-[40px_150px_140px_120px_120px_1fr] sticky h-10 border-b border-(--borderColor) items-center",
+            )}
+          >
+            <div className="flex flex-row h-full items-center justify-center">
+              <Checkbox
+                checked={headerChecked}
+                onChange={setHeaderChecked}
+                className={clsx(
+                  "group size-5 rounded-xs bg-(--background) outline-none data-checked:bg-(--currentColor) items-center cursor-pointer",
+                  {
+                    "ring-2 ring-(--descriptionColor) ring-inset":
+                      !headerChecked,
+                  },
+                )}
+              >
+                <HiCheck
+                  className="hidden fill-(--background) group-data-checked:block"
+                  size={20}
+                />
+              </Checkbox>
+            </div>
+            <div className="flex flex-row h-full items-center px-2.5">
+              <span className="text-xs">Layouts</span>
+              <Button
+                onClick={() => {
+                  setLayoutsSortUp(!layoutsSortUp);
+                }}
+                className="group flex size-6 p-1 items-center outline-none cursor-pointer hover:bg-(--secondHoverBackground)"
+              >
+                <LayoutsSortIconComponent
+                  className="hidden group-hover:block"
+                  size={20}
+                />
+              </Button>
+            </div>
+            <div className="flex flex-row h-full items-center px-2.5">
+              <span className="text-xs">Type</span>
+            </div>
+            <div className="flex flex-row h-full items-center px-2.5">
+              <span className="text-xs">Last Updated</span>
+            </div>
+            <div className="flex flex-row h-full items-center px-2.5">
+              <span className="text-xs">Last Opened</span>
             </div>
           </div>
         </div>

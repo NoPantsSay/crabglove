@@ -41,7 +41,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem={true}
         >
-          <div className="h-screen w-screen flex flex-col">
+          <div className="h-screen w-screen grid grid-rows-[auto_1fr]">
             {isClient && <TitleBar />}
 
             {children}

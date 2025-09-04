@@ -60,16 +60,19 @@ export default function Page() {
   const date = useMemo(() => new Date(), []);
 
   return (
-    <div className="flex flex-auto flex-col p-6">
-      {/* 外观 */}
-      <Fieldset className="flex flex-col border border-(--borderColor)">
-        <Legend className="text-xl p-4">
+    <div className="p-6">
+      {
+        // 外观
+      }
+      <Fieldset className="grid grid-flow-row auto-rows-auto border border-(--borderColor)">
+        <Legend className="text-xl p-4 border-b border-b-(--borderColor)">
           {translator("setting.appearance")}
         </Legend>
-        <hr className="border-(--borderColor)" />
-        <div className="flex flex-col p-4">
-          {/* 主题颜色 */}
-          <Field>
+        <div className="grid grid-flow-row auto-rows-auto p-4">
+          {
+            // 主题颜色
+          }
+          <Field className="flex flex-col overflow-x-auto">
             <div className="mb-1 py-1">
               <Label className="text-xs text-(--descriptionColor)">
                 {translator("setting.color_scheme")}
@@ -78,7 +81,7 @@ export default function Page() {
             <RadioGroup
               value={theme}
               onChange={setTheme}
-              className="flex flex-row"
+              className="flex flex-row whitespace-nowrap"
             >
               {themes.map((data) => (
                 <Radio
@@ -99,8 +102,10 @@ export default function Page() {
               ))}
             </RadioGroup>
           </Field>
-          {/* 时间戳格式 */}
-          <Field className="mt-4">
+          {
+            // 时间戳格式
+          }
+          <Field className="flex flex-col mt-4">
             <div className="mb-1 py-1">
               <Label className="text-xs text-(--descriptionColor)">
                 {translator("setting.timestamp_format")}
@@ -159,8 +164,10 @@ export default function Page() {
               </ListboxOptions>
             </Listbox>
           </Field>
-          {/* 语言 */}
-          <Field className="mt-4">
+          {
+            // 语言
+          }
+          <Field className="flex flex-col mt-4">
             <div className="mb-1 py-1">
               <Label className="text-xs text-(--descriptionColor)">
                 {translator("setting.language")}
