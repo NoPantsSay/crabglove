@@ -52,11 +52,12 @@ interface timeZoneState {
   setTimeZone: (input: string) => void;
   setIsDetected: (input: boolean) => void;
   setTimeFormat: (input: string) => void;
+  getDateFormat: (input: Date) => string;
 }
 
 export const useTimeZoneStore = create<timeZoneState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       timeZone: detectedTimeZone,
       isDetected: true,
       timeFormat: timeFormats[0].name,
@@ -69,15 +70,27 @@ export const useTimeZoneStore = create<timeZoneState>()(
       setTimeFormat: (input: string) => {
         set({ timeFormat: input });
       },
+      getDateFormat: (input: Date) => {
+        const { timeZone, timeFormat } = get();
+        const timeFormatInfo = timeFormatsMap.get(timeFormat) ?? timeFormats[0];
+        return timeFormatInfo.format(input, timeZone);
+      },
     }),
     {
       name: "timeZone", // unique name
       storage: createJSONStorage(() => localStorage),
-      onRehydrateStorage: () => (state) => {
-        if (state?.isDetected) {
+      merge: (persistedState, currentState) => {
+        let timeZone = (persistedState as timeZoneState).timeZone;
+        if ((persistedState as timeZoneState).isDetected) {
           console.log("重置当前时区为检测时间");
-          return { timeZone: detectedTimeZone };
+          timeZone = detectedTimeZone;
         }
+
+        return {
+          ...currentState,
+          ...(persistedState as timeZoneState),
+          timeZone: timeZone,
+        };
       },
     },
   ),

@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Checkbox,
   Field,
   Input,
   Label,
@@ -16,38 +15,98 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { clsx } from "clsx";
-import { useState } from "react";
+import { formatDistance } from "date-fns";
+import { useTheme } from "next-themes";
+import { useMemo, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import {
   HiArrowDown,
   HiArrowUp,
-  HiCheck,
   HiChevronDown,
   HiChevronUp,
+  HiEllipsisVertical,
 } from "react-icons/hi2";
+import {
+  MdCheckBox,
+  MdCheckBoxOutlineBlank,
+  MdIndeterminateCheckBox,
+} from "react-icons/md";
 import { PiDownload } from "react-icons/pi";
 import { RiLayoutMasonryLine } from "react-icons/ri";
-
+import { Tooltip } from "react-tooltip";
 import {
   layoutTypes,
   layoutUpdateFilters,
   useLayouts,
 } from "@/app/data/useLayouts";
+import { useTimeZoneStore } from "@/app/data/useTimeZoneStore";
 
 export default function Page() {
-  const { getLayoutTypeDisplay, getlayoutUpdateFilterDisplay } = useLayouts();
+  const date = useMemo(() => new Date(), []);
+
+  const { resolvedTheme } = useTheme();
+  const { getDateFormat } = useTimeZoneStore();
+
+  const { getLayoutTypeDisplay, getlayoutUpdateFilterDisplay, layouts } =
+    useLayouts();
   const [inputValue, setInputValue] = useState("");
   const [layoutType, setLayoutType] = useState(layoutTypes[0].name);
   const [layoutUpdateFilter, setLayoutUpdateFilter] = useState(
     layoutUpdateFilters[0].name,
   );
-  const [headerChecked, setHeaderChecked] = useState(false);
   const [layoutsSortUp, setLayoutsSortUp] = useState(false);
+  const [lastUpdatedSortUp, setLastUpdatedSortUp] = useState(false);
+  const [lastOpenedSortUp, setLastOpenedSortUp] = useState(false);
 
   const LayoutsSortIconComponent = layoutsSortUp ? HiArrowUp : HiArrowDown;
+  const LastUpdatedSortIconComponent = lastUpdatedSortUp
+    ? HiArrowUp
+    : HiArrowDown;
+  const LastOpenedSortIconComponent = lastOpenedSortUp
+    ? HiArrowUp
+    : HiArrowDown;
+
+  const filteredLayouts = useMemo(() => {
+    return Array.from(layouts.entries());
+  }, [layouts]);
+
+  const [layoutsCheckedSet, setLayoutsCheckedSet] = useState(new Set<string>());
+
+  const itemToggle = (uuid: string) => {
+    const checked = layoutsCheckedSet.has(uuid);
+
+    const newSet = new Set(layoutsCheckedSet);
+    if (!checked) {
+      newSet.add(uuid);
+    } else {
+      newSet.delete(uuid);
+    }
+    setLayoutsCheckedSet(newSet);
+  };
+
+  const itemAllToggle = () => {
+    const checked = layoutsCheckedSet.size !== 0;
+
+    if (!checked) {
+      const newSet = new Set<string>();
+      filteredLayouts.forEach(([key, _value]) => {
+        newSet.add(key);
+      });
+      setLayoutsCheckedSet(newSet);
+    } else {
+      setLayoutsCheckedSet(new Set<string>());
+    }
+  };
+
+  const SelectAllIconComponent =
+    layoutsCheckedSet.size === 0
+      ? MdCheckBoxOutlineBlank
+      : layoutsCheckedSet.size === filteredLayouts.length
+        ? MdCheckBox
+        : MdIndeterminateCheckBox;
 
   return (
-    <div className="grid p-6">
+    <div className="grid grid-rows-1 grid-cols-1 p-6">
       <div className="grid grid-rows-[auto_auto_1fr] border border-(--borderColor)">
         {
           // 标题栏
@@ -205,54 +264,265 @@ export default function Page() {
             </Listbox>
           </Field>
         </div>
-        <div className="relative flex flex-1 flex-col mt-2 border-t border-t-(--borderColor) overflow-auto">
+        <div className="relative flex flex-col mt-2 border-t border-t-(--borderColor) overflow-auto">
           <div
             className={clsx(
-              "grid grid-cols-[40px_150px_140px_120px_120px_1fr] sticky h-10 border-b border-(--borderColor) items-center",
+              "grid grid-cols-[40px_minmax(150px,_1fr)_140px_120px_120px_minmax(90px,_1fr)_60px] sticky top-0 h-10 items-center bg-(--background)",
             )}
           >
-            <div className="flex flex-row h-full items-center justify-center">
-              <Checkbox
-                checked={headerChecked}
-                onChange={setHeaderChecked}
+            <div className="flex h-full items-center justify-center border-b border-(--borderColor)">
+              <Button
+                onClick={itemAllToggle}
                 className={clsx(
-                  "group size-5 rounded-xs bg-(--background) outline-none data-checked:bg-(--currentColor) items-center cursor-pointer",
-                  {
-                    "ring-2 ring-(--descriptionColor) ring-inset":
-                      !headerChecked,
-                  },
+                  "size-5 rounded-xs outline-none items-center cursor-pointer ",
+                  layoutsCheckedSet.size === 0
+                    ? "text-(--descriptionColor)"
+                    : "text-(--currentColor) ",
                 )}
               >
-                <HiCheck
-                  className="hidden fill-(--background) group-data-checked:block"
-                  size={20}
-                />
-              </Checkbox>
+                <SelectAllIconComponent size={20} />
+              </Button>
             </div>
-            <div className="flex flex-row h-full items-center px-2.5">
+            <Button
+              onClick={() => {
+                setLayoutsSortUp(!layoutsSortUp);
+              }}
+              className="group flex flex-row h-full items-center px-2.5 border-b border-(--borderColor) outline-none"
+            >
               <span className="text-xs">Layouts</span>
-              <Button
-                onClick={() => {
-                  setLayoutsSortUp(!layoutsSortUp);
-                }}
-                className="group flex size-6 p-1 items-center outline-none cursor-pointer hover:bg-(--secondHoverBackground)"
-              >
+              <div className="flex size-6 p-1 items-center cursor-pointer hover:bg-(--secondHoverBackground)">
                 <LayoutsSortIconComponent
                   className="hidden group-hover:block"
                   size={20}
                 />
-              </Button>
-            </div>
-            <div className="flex flex-row h-full items-center px-2.5">
+              </div>
+            </Button>
+            <div className="flex flex-row h-full items-center px-2.5 border-b border-(--borderColor)">
               <span className="text-xs">Type</span>
             </div>
-            <div className="flex flex-row h-full items-center px-2.5">
+            <Button
+              onClick={() => {
+                setLastUpdatedSortUp(!lastUpdatedSortUp);
+              }}
+              className="group flex flex-row h-full items-center px-2.5 border-b border-(--borderColor) outline-none"
+            >
               <span className="text-xs">Last Updated</span>
-            </div>
-            <div className="flex flex-row h-full items-center px-2.5">
+              <div className="flex size-6 p-1 items-center cursor-pointer hover:bg-(--secondHoverBackground)">
+                <LastUpdatedSortIconComponent
+                  className="hidden group-hover:block"
+                  size={20}
+                />
+              </div>
+            </Button>
+            <Button
+              onClick={() => {
+                setLastOpenedSortUp(!lastOpenedSortUp);
+              }}
+              className="group flex flex-row h-full items-center px-2.5 border-b border-(--borderColor) outline-none"
+            >
               <span className="text-xs">Last Opened</span>
-            </div>
+              <div className="flex size-6 p-1 items-center cursor-pointer hover:bg-(--secondHoverBackground)">
+                <LastOpenedSortIconComponent
+                  className="hidden group-hover:block"
+                  size={20}
+                />
+              </div>
+            </Button>
+            <div className="h-full px-2.5 border-b border-(--borderColor)" />
+            <div className="h-full px-2.5 border-b border-(--borderColor)" />
           </div>
+          {filteredLayouts.map(([uuid, data], index) => (
+            // biome-ignore lint/a11y/noStaticElementInteractions: just ignore
+            // biome-ignore lint/a11y/useKeyWithClickEvents:  just ignore
+            <div
+              onClick={() => {
+                console.log("div");
+                itemToggle(uuid);
+              }}
+              key={uuid}
+              className={clsx(
+                "group grid grid-cols-[40px_minmax(150px,_1fr)_140px_120px_120px_minmax(90px,_1fr)_60px] h-10 items-center",
+              )}
+            >
+              <div
+                className={clsx(
+                  "group flex h-full items-center justify-center ",
+                  layoutsCheckedSet.has(uuid)
+                    ? "bg-(--currentColorBackground) group-hover:bg-(--currentColorHoverBackground)"
+                    : "group-hover:bg-(--secondHoverBackground)",
+                  {
+                    "border-t border-(--dataGridBorderColor)": index !== 0,
+                  },
+                )}
+              >
+                <Button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    itemToggle(uuid);
+                  }}
+                  className={clsx(
+                    "size-5 rounded-xs outline-none items-center cursor-pointer",
+                    layoutsCheckedSet.has(uuid)
+                      ? "text-(--currentColor) "
+                      : "text-(--descriptionColor)",
+                  )}
+                >
+                  {layoutsCheckedSet.has(uuid) ? (
+                    <MdCheckBox size={20} />
+                  ) : (
+                    <MdCheckBoxOutlineBlank
+                      className="hidden group-hover:block"
+                      size={20}
+                    />
+                  )}
+                </Button>
+              </div>
+              <div
+                className={clsx(
+                  "flex h-full px-2.5 items-center",
+                  layoutsCheckedSet.has(uuid)
+                    ? "bg-(--currentColorBackground) group-hover:bg-(--currentColorHoverBackground)"
+                    : "group-hover:bg-(--secondHoverBackground)",
+                  {
+                    "border-t border-(--dataGridBorderColor)": index !== 0,
+                  },
+                )}
+              >
+                <span className="text-xs text-(--descriptionColor) ">
+                  {data.name}
+                </span>
+              </div>
+              <div
+                className={clsx(
+                  "flex h-full px-2.5 items-center",
+                  layoutsCheckedSet.has(uuid)
+                    ? "bg-(--currentColorBackground) group-hover:bg-(--currentColorHoverBackground)"
+                    : "group-hover:bg-(--secondHoverBackground)",
+                  {
+                    "border-t border-(--dataGridBorderColor)": index !== 0,
+                  },
+                )}
+              >
+                <span className="text-xs text-(--descriptionColor) ">
+                  {data.type}
+                </span>
+              </div>
+              <div
+                className={clsx(
+                  "flex h-full px-2.5 items-center",
+                  layoutsCheckedSet.has(uuid)
+                    ? "bg-(--currentColorBackground) group-hover:bg-(--currentColorHoverBackground)"
+                    : "group-hover:bg-(--secondHoverBackground)",
+                  {
+                    "border-t border-(--dataGridBorderColor)": index !== 0,
+                  },
+                )}
+              >
+                {data.lastUpdated && (
+                  <>
+                    <span
+                      className="text-xs text-(--descriptionColor)"
+                      data-tooltip-id={`lastUpdated:${uuid}`}
+                      data-tooltip-content={getDateFormat(data.lastUpdated)}
+                      data-tooltip-place="bottom"
+                      data-tooltip-variant={
+                        resolvedTheme === "dark" ? "dark" : "light"
+                      }
+                    >
+                      {formatDistance(data.lastUpdated, date, {
+                        addSuffix: true,
+                      })}
+                    </span>
+
+                    <Tooltip
+                      id={`lastUpdated:${uuid}`}
+                      style={{ fontSize: "12px", lineHeight: "1.333" }}
+                    />
+                  </>
+                )}
+              </div>
+              <div
+                className={clsx(
+                  "flex h-full px-2.5 items-center",
+                  layoutsCheckedSet.has(uuid)
+                    ? "bg-(--currentColorBackground) group-hover:bg-(--currentColorHoverBackground)"
+                    : "group-hover:bg-(--secondHoverBackground)",
+                  {
+                    "border-t border-(--dataGridBorderColor)": index !== 0,
+                  },
+                )}
+              >
+                {data.lastOpened && (
+                  <>
+                    <span
+                      className="text-xs text-(--descriptionColor)"
+                      data-tooltip-id={`lastOpened:${uuid}`}
+                      data-tooltip-content={getDateFormat(data.lastOpened)}
+                      data-tooltip-place="bottom"
+                      data-tooltip-variant={
+                        resolvedTheme === "dark" ? "dark" : "light"
+                      }
+                    >
+                      {formatDistance(data.lastOpened, date, {
+                        addSuffix: true,
+                      })}
+                    </span>
+
+                    <Tooltip
+                      id={`lastOpened:${uuid}`}
+                      style={{ fontSize: "12px", lineHeight: "1.333" }}
+                    />
+                  </>
+                )}
+              </div>
+              <div
+                className={clsx(
+                  "flex h-full px-2.5 items-center justify-end",
+                  layoutsCheckedSet.has(uuid)
+                    ? "bg-(--currentColorBackground) group-hover:bg-(--currentColorHoverBackground)"
+                    : "group-hover:bg-(--secondHoverBackground)",
+                  {
+                    "border-t border-(--dataGridBorderColor)": index !== 0,
+                  },
+                )}
+              >
+                <Button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                  className={clsx(
+                    "outline-none border items-center cursor-pointer",
+                    "hidden group-hover:block text-(--currentColorHalfOpacity) hover:text-(--currentColor)",
+                  )}
+                >
+                  <span className="text-xs px-4">Open</span>
+                </Button>
+              </div>
+              <div
+                className={clsx(
+                  "flex h-full px-2.5 items-center justify-center",
+                  layoutsCheckedSet.has(uuid)
+                    ? "bg-(--currentColorBackground) group-hover:bg-(--currentColorHoverBackground)"
+                    : "group-hover:bg-(--secondHoverBackground)",
+                  {
+                    "border-t border-(--dataGridBorderColor)": index !== 0,
+                  },
+                )}
+              >
+                <Button
+                  onClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                  className={clsx(
+                    "outline-none items-center p-2.5 cursor-pointer",
+                    "text-(--descriptionColor) hover:text-(--foreground) hover:bg-(--dataIconHoverColor)",
+                  )}
+                >
+                  <HiEllipsisVertical size={20} />
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -12,9 +12,16 @@
     var(--currentColor) 24%,
     transparent
   );
+  --currentColorHalfOpacity: color-mix(
+    in srgb,
+    var(--currentColor) 50%,
+    transparent
+  );
 }
 
 :root {
+  --dataIconHoverColor: color-mix(in srgb, #000000 4%, transparent);
+  --dataGridBorderColor: #fafafa;
   --descriptionColor: #6f6f6f;
   --borderColor: #d6d6d6;
   --secondHoverBackground: #0000000a;
@@ -24,6 +31,8 @@
 }
 
 .dark {
+  --dataIconHoverColor: color-mix(in srgb, #ffffff 8%, transparent);
+  --dataGridBorderColor: #1c1c1c;
   --descriptionColor: #a7a7a7;
   --borderColor: #585858;
   --secondHoverBackground: #ffffff14;

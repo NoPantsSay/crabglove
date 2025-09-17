@@ -20,8 +20,8 @@ export default function RootLayout({
     <div
       className={clsx(
         "grid",
-        "not-sm:grid-rows-[auto_auto] not-sm:overflow-y-auto",
-        "sm:grid-cols-[auto_1fr] sm:overflow-hidden",
+        "not-sm:grid-rows-[auto_auto] not-sm:grid-cols-1 not-sm:overflow-y-auto",
+        "sm:grid-cols-[auto_1fr] sm:grid-rows-1 sm:overflow-hidden",
       )}
     >
       <div
